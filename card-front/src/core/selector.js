@@ -1,6 +1,6 @@
-export const selectRobots = (state) => state.robotsReducer.robots;
-export const selectParts = (state) => state.partsReducer.parts;
-export const selectSelectedParts = (state) =>
-  state.partsReducer.parts.filter((part) =>
-    state.partsReducer.selectedParts.includes(part.id)
+export const selectCards = (state) => state.cardsReducer.cards;
+// export const selectParts = (state) => state.partsReducer.parts;
+export const selectSelectedCard = (state) =>
+  state.cardsReducer.cards.filter((card) =>
+    state.cardsReducer.cardsReducer.includes(card.id)
   );

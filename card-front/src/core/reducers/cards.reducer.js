@@ -5,15 +5,15 @@ const initialState = {
   
   export const cardsReducer = (state = initialState, action) => {
     switch (action.type) {
-      case 'LOAD_PARTS':
+      case 'LOAD_CARDS':
         return {
           ...state,
-          parts: action.payload,
+          cards: action.payload,
         };
-      case 'SELECT_PARTS':
+      case 'SELECT_CARD':
         return {
           ...state,
-          selectedParts: action.payload,
+          selectedCard: action.payload,
         };
       default:
         return state;
