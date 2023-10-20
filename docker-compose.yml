@@ -20,39 +20,39 @@ services:
     network_mode: "host"
     depends_on: 
       - db
-  userservice:
-    container_name: vlad_thounine
-    build:
-        context: ./user_manager
-        dockerfile: Dockerfile
-    image: schtoukai/vlad_thounine_img
-    ports:
-      - 8081:8081
-    depends_on:
-      - db
-      - reverseproxy
-  cardservice:
-    container_name: mathiamas
-    build:
-        context: ./card_manager
-        dockerfile: Dockerfile
-    image: schtoukai/mathiamas_img
-    ports:
-      - 8082:8082
-    depends_on:
-      - db
-      - reverseproxy
-  storeservice:
-    container_name: enzisrael
-    build:
-        context: ./store_manager
-        dockerfile: Dockerfile
-    image: schtoukai/enzisrael_img
-    ports:
-      - 8083:8083
-    depends_on:
-      - db
-      - reverseproxy
+  #userservice:
+    #container_name: vlad_thounine
+    #build:
+        #context: ./user_manager
+        #dockerfile: Dockerfile
+    #image: schtoukai/vlad_thounine_img
+    #ports:
+      #- 8081:8081
+    #depends_on:
+      #- db
+      #- reverseproxy
+  #cardservice:
+    #container_name: mathiamas
+    #build:
+        #context: ./card_manager
+        #dockerfile: Dockerfile
+    #image: schtoukai/mathiamas_img
+    #ports:
+      #- 8082:8082
+    #depends_on:
+      #- db
+      #- reverseproxy
+  #storeservice:
+    #container_name: enzisrael
+    #build:
+        #context: ./store_manager
+        #dockerfile: Dockerfile
+    #image: schtoukai/enzisrael_img
+    #ports:
+      #- 8083:8083
+    #depends_on:
+      #- db
+      #- reverseproxy
   #roomservice:
     #container_name: room_manager
     #build:
@@ -67,7 +67,7 @@ services:
   reactfront:
     container_name: gutenhower
     build:
-        context: ./vue
+        context: ./reactfront
         dockerfile: Dockerfile
     image: schtoukai/gutenhower_img
     ports:
