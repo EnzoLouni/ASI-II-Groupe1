@@ -1,24 +1,24 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-card-front/node_modules
-card-front/.pnp
-card-front/.pnp.js
+reactfront/node_modules
+reactfront/.pnp
+reactfront/.pnp.js
 
 # testing
-card-front/coverage
+reactfront/coverage
 
 # production
-card-front/build
+reactfront/build
 
 # misc
-card-front/.DS_Store
-card-front/.env.local
-card-front/.env.development.local
-card-front/.env.test.local
-card-front/.env.production.local
+reactfront/.DS_Store
+reactfront/.env.local
+reactfront/.env.development.local
+reactfront/.env.test.local
+reactfront/.env.production.local
 
-card-front/npm-debug.log*
-card-front/yarn-debug.log*
-card-front/yarn-error.log*
+reactfront/npm-debug.log*
+reactfront/yarn-debug.log*
+reactfront/yarn-error.log*
 
