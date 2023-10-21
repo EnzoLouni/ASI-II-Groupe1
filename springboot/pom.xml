@@ -9,11 +9,20 @@
 		<version>2.7.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cpe.springboot</groupId>
-	<artifactId>asi2-backendmarket-monolithic-student</artifactId>
+	<groupId>com.cpe.irc5.asi2.grp1</groupId>
+	<artifactId>cardgame</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>asi2-backendmarket-monolithic-student</name>
-	<description>Archi monolithic Card Market</description>
+	<name>cardgame</name>
+	<description>CardGame SOA Approach</description>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>user_manager</module>
+		<module>card_manager</module>
+		<module>store_manager</module>
+		<module>auth_manager</module>
+		<module>notif_manager</module>
+	</modules>
 
 	<properties>
 		<java.version>11</java.version>
@@ -38,11 +47,10 @@
 <!-- 		<artifactId>activemq-broker</artifactId> -->
 <!-- 		</dependency> -->
 
-<!-- 		<dependency> -->
-<!-- 			<groupId>mysql</groupId> -->
-<!-- 			<artifactId>mysql-connector-java</artifactId> -->
-<!-- 			<scope>runtime</scope> -->
-<!-- 		</dependency> -->
+		<dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
 		
 		<dependency>
 			<groupId>com.h2database</groupId>

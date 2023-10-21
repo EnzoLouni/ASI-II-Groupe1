@@ -20,54 +20,65 @@ services:
     network_mode: "host"
     depends_on: 
       - db
-  #userservice:
-    #container_name: vlad_thounine
-    #build:
-        #context: ./user_manager
-        #dockerfile: Dockerfile
-    #image: schtoukai/vlad_thounine_img
-    #ports:
-      #- 8081:8081
-    #depends_on:
-      #- db
-      #- reverseproxy
-  #cardservice:
-    #container_name: mathiamas
-    #build:
-        #context: ./card_manager
-        #dockerfile: Dockerfile
-    #image: schtoukai/mathiamas_img
-    #ports:
-      #- 8082:8082
-    #depends_on:
-      #- db
-      #- reverseproxy
-  #storeservice:
-    #container_name: enzisrael
-    #build:
-        #context: ./store_manager
-        #dockerfile: Dockerfile
-    #image: schtoukai/enzisrael_img
-    #ports:
-      #- 8083:8083
-    #depends_on:
-      #- db
-      #- reverseproxy
-  #roomservice:
-    #container_name: room_manager
-    #build:
-        #context: ./Atelier3/room_manager
-        #dockerfile: Dockerfile
-    #image: schtoukai/cardgame_roomservice
-    #ports:
-      #- 8084:8084
-    #depends_on:
-      #- db
-      #- reverseproxy
-  reactfront:
+  userservice:
+    container_name: vlad_thounine
+    build:
+        context: ./springboot/user_manager
+        dockerfile: Dockerfile
+    image: schtoukai/vlad_thounine_img
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+      - reverseproxy
+  cardservice:
+    container_name: mathiamas
+    build:
+        context: ./springboot/card_manager
+        dockerfile: Dockerfile
+    image: schtoukai/mathiamas_img
+    ports:
+      - 8082:8082
+    depends_on:
+      - db
+      - reverseproxy
+  storeservice:
+    container_name: enzisrael
+    build:
+        context: ./springboot/store_manager
+        dockerfile: Dockerfile
+    image: schtoukai/enzisrael_img
+    ports:
+      - 8083:8083
+    depends_on:
+      - db
+      - reverseproxy
+  authservice:
+    container_name: moauthias
+    build:
+        context: ./springboot/auth_manager
+        dockerfile: Dockerfile
+    image: schtoukai/moauthias_img
+    ports:
+      - 8084:8084
+    depends_on:
+      - db
+      - reverseproxy
+  notifservice:
+    container_name: nyothif
+    build:
+        context: ./springboot/notif_manager
+        dockerfile: Dockerfile
+    image: schtoukai/nyothif_img
+    ports:
+      - 8085:8085
+    depends_on:
+      - db
+      - reverseproxy
+  vuefront:
     container_name: gutenhower
     build:
-        context: ./reactfront
+        context: ./react
         dockerfile: Dockerfile
     image: schtoukai/gutenhower_img
     ports:

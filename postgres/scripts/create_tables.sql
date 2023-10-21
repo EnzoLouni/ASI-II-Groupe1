@@ -1,5 +1,9 @@
-DROP TABLE IF EXISTS usermodel;
-CREATE TABLE usermodel (
+CREATE DATABASE user_manager;
+\c user_manager;
+
+
+DROP TABLE IF EXISTS public.user;
+CREATE TABLE public.user (
     id BIGSERIAL NOT NULL,
     login VARCHAR(50) DEFAULT NULL,
     pwd VARCHAR(50) DEFAULT NULL,
@@ -10,7 +14,11 @@ CREATE TABLE usermodel (
     CONSTRAINT PK_USER PRIMARY KEY (id)
 );
 
-CREATE TABLE cardmodel (
+CREATE DATABASE card_manager;
+\c card_manager;
+
+DROP TABLE IF EXISTS public.card;
+CREATE TABLE public.card (
 	id  BIGSERIAL NOT NULL,
 	name VARCHAR(50) DEFAULT NULL,
 	description VARCHAR(3000) DEFAULT NULL,

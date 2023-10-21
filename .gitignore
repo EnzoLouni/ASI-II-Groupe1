@@ -22,3 +22,14 @@ reactfront/npm-debug.log*
 reactfront/yarn-debug.log*
 reactfront/yarn-error.log*
 
+-------------------------------------------
+
+/target/
+.metadata/
+.settings/
+.project
+.code
+.classpath
+*.iml
+.idea
+
