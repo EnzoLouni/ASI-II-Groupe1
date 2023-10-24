@@ -20,6 +20,15 @@ services:
     network_mode: "host"
     depends_on: 
       - db
+  activemq:
+    container_name: active_moelle
+    image: schtoukai/active_moelle_img
+    build:
+      context: ./activeMQ
+      dockerfile: Dockerfile
+    ports:
+      - 61616:61616
+      - 8161:8161
   userservice:
     container_name: vlad_thounine
     build:
@@ -31,6 +40,7 @@ services:
     depends_on:
       - db
       - reverseproxy
+      - activemq
   cardservice:
     container_name: mathiamas
     build:
@@ -42,6 +52,7 @@ services:
     depends_on:
       - db
       - reverseproxy
+      - activemq
   storeservice:
     container_name: enzisrael
     build:
@@ -53,6 +64,7 @@ services:
     depends_on:
       - db
       - reverseproxy
+      - activemq
   authservice:
     container_name: moauthias
     build:
@@ -64,6 +76,7 @@ services:
     depends_on:
       - db
       - reverseproxy
+      - activemq
   notifservice:
     container_name: nyothif
     build:
@@ -75,6 +88,7 @@ services:
     depends_on:
       - db
       - reverseproxy
+      - activemq
   vuefront:
     container_name: gutenhower
     build:
@@ -86,3 +100,4 @@ services:
     depends_on:
       - db
       - reverseproxy
+      - activemq
