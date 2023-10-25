@@ -1,7 +1,6 @@
-package com.cpe.irc5.asi2.grp1.user_manager.config;
+package com.cpe.irc5.asi2.grp1.notif_manager.config;
 
-import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
-import com.cpe.irc5.asi2.grp1.user_manager.service.UserService;
+import com.cpe.irc5.asi2.grp1.notif_manager.service.NotificationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,19 +19,15 @@ import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toM
 @Slf4j
 public class ActiveMqBus {
 
-    private final UserService userService;
+    private final NotificationService notificationService;
 
-    @Value("${user.busName}")
+    @Value("${notification.busName}")
     private String busName;
 
-    @JmsListener(destination = "${user.busName}", containerFactory = "activeMqFactory")
+    @JmsListener(destination = "${notification.busName}", containerFactory = "activeMqFactory")
     public void processMessage(ActiveMQTextMessage content) throws JMSException, JsonProcessingException {
         log.info("[" + busName + "] dequeued message with Group ID: " + content.getGroupID());
         Map<String, Object> mapOfData = toMap(content);
-        if(content.getGroupID().equals(GroupID.Authentication.name())) {
-            String login = mapOfData.get("login").toString();
-            String password = mapOfData.get("password").toString();
-            userService.canCredentialsMatch(login, password);
-        }
+        log.info("Content: " + mapOfData);
     }
 }

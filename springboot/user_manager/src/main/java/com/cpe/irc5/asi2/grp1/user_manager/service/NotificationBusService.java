@@ -11,13 +11,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class UserBusService implements BusService {
+public class NotificationBusService implements BusService {
 
     private final JmsTemplate jmsTemplate;
 
-    @Value("${user.busName}")
+    @Value("${notification.busName}")
     private String busName;
-
     @Override
     public void pushInQueue(ActiveMQTextMessage content) {
         log.info("[" + busName + "] enqueued a message");
