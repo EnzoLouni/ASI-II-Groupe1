@@ -1,4 +1,4 @@
-package com.cpe.irc5.asi2.grp1.user_manager.config;
+package com.cpe.irc5.asi2.grp1.commons.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
