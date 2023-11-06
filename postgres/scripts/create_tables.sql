@@ -10,7 +10,6 @@ CREATE TABLE public.user (
     wallet FLOAT,
     lastName VARCHAR(100) DEFAULT NULL,
     firstName VARCHAR(100) DEFAULT NULL,
-    email VARCHAR(100) DEFAULT NULL,
     CONSTRAINT PK_USER PRIMARY KEY (id)
 );
 
