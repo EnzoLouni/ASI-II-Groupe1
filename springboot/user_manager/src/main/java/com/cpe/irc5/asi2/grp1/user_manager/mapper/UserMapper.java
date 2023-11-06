@@ -15,7 +15,6 @@ public abstract class UserMapper {
     @Mapping(target = "password", source = "user.password")
     @Mapping(target = "firstname", source = "user.firstname")
     @Mapping(target = "lastname", source = "user.lastname")
-    @Mapping(target = "email", source = "user.email")
     public abstract UserDto toUserDto(User user);
 
     @Mapping(target = "id", source = "userDto.id")
@@ -23,6 +22,5 @@ public abstract class UserMapper {
     @Mapping(target = "password", source = "userDto.password")
     @Mapping(target = "firstname", source = "userDto.firstname")
     @Mapping(target = "lastname", source = "userDto.lastname")
-    @Mapping(target = "email", source = "userDto.email")
     public abstract User toUser(UserDto userDto);
 }

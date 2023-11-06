@@ -77,18 +77,6 @@ services:
       - db
       - reverseproxy
       - activemq
-  notifservice:
-    container_name: nyothif
-    build:
-        context: ./springboot/notif_manager
-        dockerfile: Dockerfile
-    image: schtoukai/nyothif_img
-    ports:
-      - 8085:8085
-    depends_on:
-      - db
-      - reverseproxy
-      - activemq
   vuefront:
     container_name: gutenhower
     build:

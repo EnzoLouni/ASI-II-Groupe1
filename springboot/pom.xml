@@ -21,7 +21,6 @@
 		<module>card_manager</module>
 		<module>store_manager</module>
 		<module>auth_manager</module>
-		<module>notif_manager</module>
 	</modules>
 
 	<properties>
