@@ -19,8 +19,8 @@ import javax.validation.Valid;
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
-    @PostMapping
-    public void authentication(@RequestBody @Valid AuthDto request) {
-        authenticationService.authenticate(request);
+    @PostMapping("/auth")
+    public boolean authentication(@RequestBody @Valid AuthDto request) {
+        return authenticationService.authenticate(request);
     }
 }
