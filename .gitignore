@@ -1,28 +1,28 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-reactfront/node_modules
-reactfront/.pnp
-reactfront/.pnp.js
+react/node_modules
+react/.pnp
+react/.pnp.js
 
 # testing
-reactfront/coverage
+react/coverage
 
 # production
-reactfront/build
+react/build
 
 # misc
-reactfront/.DS_Store
-reactfront/.env.local
-reactfront/.env.development.local
-reactfront/.env.test.local
-reactfront/.env.production.local
+react/.DS_Store
+react/.env
+react/.env.local
+react/.env.development.local
+react/.env.test.local
+react/.env.production.local
 
-reactfront/npm-debug.log*
-reactfront/yarn-debug.log*
-reactfront/yarn-error.log*
+react/npm-debug.log*
+react/yarn-debug.log*
+react/yarn-error.log*
 
-<<<<<<< HEAD
 -------------------------------------------
 
 /target/
@@ -34,6 +34,3 @@ reactfront/yarn-error.log*
 *.iml
 .idea
 
-=======
-reactfront/.next
->>>>>>> 00c1a98 (feat: login and register page)
