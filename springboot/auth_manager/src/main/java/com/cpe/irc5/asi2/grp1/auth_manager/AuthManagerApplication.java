@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan("com.cpe.irc5.asi2.grp1.*")
-@EnableFeignClients(basePackages = {"com.cpe.irc5.asi2.grp1.commons.client","com.cpe.irc5.asi2.grp1.auth_manager.controller"})
+@EnableFeignClients(basePackages = {"com.cpe.irc5.asi2.grp1.user_manager.client","com.cpe.irc5.asi2.grp1.auth_manager.controller"})
 public class AuthManagerApplication {
 
     public static void main(String[] args) {

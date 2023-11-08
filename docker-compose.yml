@@ -8,7 +8,7 @@ services:
       context: ./postgres
       dockerfile: Dockerfile
     ports:
-      - 5432:5432
+      - 5433:5433
     restart: always
   reverseproxy:
     container_name: reguthproxy
@@ -29,6 +29,9 @@ services:
     ports:
       - 61616:61616
       - 8161:8161
+    depends_on: 
+      - db
+      - reverseproxy
   userservice:
     container_name: vlad_thounine
     build:

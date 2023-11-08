@@ -9,7 +9,6 @@ com\cpe\irc5\asi2\grp1\user_manager\controller\publics\UserPublicController.clas
 com\cpe\irc5\asi2\grp1\user_manager\repository\UserRepository.class
 com\cpe\irc5\asi2\grp1\user_manager\controller\privates\UserPrivateController.class
 com\cpe\irc5\asi2\grp1\user_manager\mapper\UserMapper.class
-com\cpe\irc5\asi2\grp1\user_manager\dto\UserDto$UserDtoBuilder.class
-com\cpe\irc5\asi2\grp1\user_manager\dto\UserDto.class
+com\cpe\irc5\asi2\grp1\user_manager\config\UserExceptionHandler.class
 com\cpe\irc5\asi2\grp1\user_manager\config\ActiveMqConfiguration.class
 com\cpe\irc5\asi2\grp1\user_manager\model\User$UserBuilder.class

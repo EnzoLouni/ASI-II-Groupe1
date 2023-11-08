@@ -1,7 +1,7 @@
 package com.cpe.irc5.asi2.grp1.user_manager.mapper;
 
-import com.cpe.irc5.asi2.grp1.user_manager.dto.UserDto;
-import com.cpe.irc5.asi2.grp1.user_manager.dto.UserDto.UserDtoBuilder;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDTO;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDTO.UserDTOBuilder;
 import com.cpe.irc5.asi2.grp1.user_manager.model.User;
 import com.cpe.irc5.asi2.grp1.user_manager.model.User.UserBuilder;
 import javax.annotation.processing.Generated;
@@ -9,32 +9,32 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-08T09:24:49+0100",
+    date = "2023-11-08T15:59:23+0100",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
 )
 @Component
 public class UserMapperImpl extends UserMapper {
 
     @Override
-    public UserDto toUserDto(User user) {
+    public UserDTO toUserDto(User user) {
         if ( user == null ) {
             return null;
         }
 
-        UserDtoBuilder userDto = UserDto.builder();
+        UserDTOBuilder userDTO = UserDTO.builder();
 
-        userDto.id( user.getId() );
-        userDto.login( user.getLogin() );
-        userDto.password( user.getPassword() );
-        userDto.firstname( user.getFirstname() );
-        userDto.lastname( user.getLastname() );
-        userDto.wallet( user.getWallet() );
+        userDTO.id( user.getId() );
+        userDTO.login( user.getLogin() );
+        userDTO.password( user.getPassword() );
+        userDTO.firstname( user.getFirstname() );
+        userDTO.lastname( user.getLastname() );
+        userDTO.wallet( user.getWallet() );
 
-        return userDto.build();
+        return userDTO.build();
     }
 
     @Override
-    public User toUser(UserDto userDto) {
+    public User toUser(UserDTO userDto) {
         if ( userDto == null ) {
             return null;
         }

@@ -1,6 +1,7 @@
 package com.cpe.irc5.asi2.grp1.card_manager.model;
 
-import com.cpe.irc5.asi2.grp1.public_cardDTO.dto.CardBasics;
+
+import com.cpe.irc5.asi2.grp1.public_card.dtos.CardBasics;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

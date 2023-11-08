@@ -1,8 +1,8 @@
 package com.cpe.irc5.asi2.grp1.card_manager.model;
 
+import com.cpe.irc5.asi2.grp1.public_card.dtos.CardBasics;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.cpe.irc5.asi2.grp1.public_cardDTO.dto.CardBasics;
 
 import javax.persistence.*;
 
@@ -107,11 +107,11 @@ public class CardModel extends CardBasics {
         this.id = id;
     }
 
-    public Integer getuser() {
+    public Integer getUser() {
         return user;
     }
 
-    public void setuser(Integer user) {
+    public void setUser(Integer user) {
         this.user = user;
     }
 

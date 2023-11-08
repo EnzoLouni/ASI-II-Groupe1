@@ -3,8 +3,7 @@ package com.cpe.irc5.asi2.grp1.user_manager.service;
 
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
-import com.cpe.irc5.asi2.grp1.commons.errors.handler.UserExceptionHandler;
-import com.cpe.irc5.asi2.grp1.user_manager.dto.UserDto;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDTO;
 import com.cpe.irc5.asi2.grp1.user_manager.mapper.UserMapper;
 import com.cpe.irc5.asi2.grp1.user_manager.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,7 +30,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class UserService extends UserExceptionHandler {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -47,17 +46,17 @@ public class UserService extends UserExceptionHandler {
         return userRepository.findUserByLoginAndPassword(login, DigestUtils.sha256Hex(password)) != null;
     }
 
-    public UserDto getUser(Integer userId) throws CannotCreateTransactionException {
+    public UserDTO getUser(Integer userId) throws CannotCreateTransactionException {
         log.info("Getting User with ID {}", userId);
         return userRepository.findById(userId).map(userMapper::toUserDto).orElse(null);
     }
 
-    public List<UserDto> getAllUsers() throws CannotCreateTransactionException {
+    public List<UserDTO> getAllUsers() throws CannotCreateTransactionException {
         log.info("Getting all Users");
         return StreamSupport.stream(userRepository.findAll().spliterator(),false).map(userMapper::toUserDto).collect(toList());
     }
 
-    public void createUserRequest(UserDto userUpdated) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+    public void createUserRequest(UserDTO userUpdated) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("Create Request received");
         ObjectNode objectNode = (ObjectNode) mapper.readTree(mapper.writeValueAsString(userUpdated));
         objectNode.put(GROUP, GroupID.Users.name());
@@ -65,7 +64,7 @@ public class UserService extends UserExceptionHandler {
         userBusService.pushInQueue(objectNode);
     }
 
-    public void updateUserRequest(Integer id, UserDto userUpdated) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+    public void updateUserRequest(Integer id, UserDTO userUpdated) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("Update Request received");
         userUpdated.setId(id);
         ObjectNode objectNode = (ObjectNode) mapper.readTree(mapper.writeValueAsString(userUpdated));
@@ -74,7 +73,7 @@ public class UserService extends UserExceptionHandler {
         userBusService.pushInQueue(objectNode);
     }
 
-    public void updateUser(Integer id, UserDto userUpdated) throws CannotCreateTransactionException {
+    public void updateUser(Integer id, UserDTO userUpdated) throws CannotCreateTransactionException {
         log.info("Update User with ID: {}", userUpdated.getId());
         try {
             userRepository.findById(id);

@@ -2,7 +2,7 @@ package com.cpe.irc5.asi2.grp1.user_manager.config;
 
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
-import com.cpe.irc5.asi2.grp1.user_manager.dto.UserDto;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDTO;
 import com.cpe.irc5.asi2.grp1.user_manager.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,8 +36,8 @@ public class ActiveMqBus {
             ObjectNode objectNode = toObjectNode(content);
             if(content.getGroupID().equals(GroupID.Users.name())) {
                 if(content.getType().equals(RequestType.PUT.name())) {
-                    UserDto userToUpdate = mapper.convertValue(objectNode, UserDto.class);
-                    //userService.updateUser(userToUpdate.getId(), userToUpdate);
+                    UserDTO userToUpdate = mapper.convertValue(objectNode, UserDTO.class);
+                    userService.updateUser(userToUpdate.getId(), userToUpdate);
                 }
                 else if(content.getType().equals(RequestType.DELETE.name())) {
                     Integer userToDeleteId = mapper.convertValue(objectNode.get("id"), Integer.class);
