@@ -1,14 +1,16 @@
 
 import React from "react";
+import { Link } from "react-router-dom";
+import { Grid, Header, Icon } from "semantic-ui-react";
  
 const HomeTile = ({url,title,icon}) => {
     return (
-        <a className="ui label" href={url}>
-            {icon ==="buy" && <i className= "massive shopping cart icon"/>}
-            {icon ==="sell" && <i className= "massive money bill alternate icon"/>}
-            {icon ==="play" && <i className= "massive gamepad icon"/>}
-            <h1 className="ui label">{title}</h1>
-        </a>
+        <Grid as={Link} className="ui label" to={url} style={{height: "200px",alignContent:"center"}} centered>
+            <Header as='h2' size="huge" style={{fontSize:"50px"}}>
+                <Icon size="huge" style={{marginRight:"32px"}} name={`${icon === "buy" && "shopping cart"} ${icon === "sell" && "money bill alternate"} ${icon === "play" && "gamepad"}`}/>
+                {title}
+            </Header>
+        </Grid>
     );
 };
  
