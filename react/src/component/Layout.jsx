@@ -4,7 +4,7 @@ import { Grid } from "semantic-ui-react";
  
 const Layout = ({ children }) => {
     return (
-        <Grid style={{height: "100vh"}}>
+        <Grid style={{height: "100vh",width:"100%"}}>
             <Grid.Row style={{height: "150px"}}>
                 <Header />
             </Grid.Row>

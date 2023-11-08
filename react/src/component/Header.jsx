@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, GridColumn } from "semantic-ui-react";
+import { Grid, GridColumn, Label } from "semantic-ui-react";
 import { useCookies } from 'react-cookie';
 import { useLocation } from "react-router-dom";
  
@@ -28,16 +28,16 @@ const Header = () => {
     },[location])
 
     return (
-        <Grid style={{borderBottom: "1px solid black",width:"100%"}}>
+        <Grid style={{borderBottom: "1px solid black",width:"100%"}} centered verticalAlign="middle">
             <Grid.Row>
                 <GridColumn floated="left">
-                    {cookies.zollex}
+                    <Label size="massive">{cookies.zollex}Ƶ</Label>
                 </GridColumn>
                 <GridColumn>
-                <h1>{locationName}</h1>
+                    <h1>{locationName}</h1>
                 </GridColumn>
                 <GridColumn floated="right">
-                    {cookies.name}
+                    <Label size="massive">{cookies.name}</Label>
                 </GridColumn>
             </Grid.Row>
         </Grid>
