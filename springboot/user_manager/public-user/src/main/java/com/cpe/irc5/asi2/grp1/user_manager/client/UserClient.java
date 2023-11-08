@@ -1,4 +1,4 @@
-package com.cpe.irc5.asi2.grp1.commons.client;
+package com.cpe.irc5.asi2.grp1.user_manager.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
