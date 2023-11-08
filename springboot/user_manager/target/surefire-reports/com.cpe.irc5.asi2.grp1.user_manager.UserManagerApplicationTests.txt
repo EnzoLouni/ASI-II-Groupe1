@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.cpe.irc5.asi2.grp1.user_manager.UserManagerApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 7.741 s <<< FAILURE! - in com.cpe.irc5.asi2.grp1.user_manager.UserManagerApplicationTests
+contextLoads  Time elapsed: 0.011 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'activeMqBus' defined in file [C:\Users\Guth MOELLE\Documents\CPE Lyon\Annee 5\Semestre 9\ASI-2\Atelier_I\ASI-II-Groupe1\springboot\user_manager\target\classes\com\cpe\irc5\asi2\grp1\user_manager\config\ActiveMqBus.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanInitializationException: Could not register JMS listener endpoint on [public void com.cpe.irc5.asi2.grp1.user_manager.config.ActiveMqBus.processMessage(org.apache.activemq.command.ActiveMQTextMessage)], no JmsListenerContainerFactory with id 'activeMqFactory' was found in the application context; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'activeMqFactory' available
+Caused by: org.springframework.beans.factory.BeanInitializationException: Could not register JMS listener endpoint on [public void com.cpe.irc5.asi2.grp1.user_manager.config.ActiveMqBus.processMessage(org.apache.activemq.command.ActiveMQTextMessage)], no JmsListenerContainerFactory with id 'activeMqFactory' was found in the application context; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'activeMqFactory' available
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'activeMqFactory' available
+
