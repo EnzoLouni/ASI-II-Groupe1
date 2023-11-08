@@ -3,11 +3,12 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Icon, Table } from "semantic-ui-react";
 import { useSelector, useDispatch } from 'react-redux';
-import { setZozzemonList } from "../core/reducers/zozzemonsSlice";
+import { setSelectedZozzemon, setZozzemonList } from "../core/reducers/zozzemonsSlice";
 const tmpZozzemons = require('../zozzemons.json');
 
 const ZozzemonBoard = () => {
     const zozzemonList = useSelector(state => state.zozzemon.zozzemonList)
+    const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -40,7 +41,7 @@ const ZozzemonBoard = () => {
             <Table.Body>
                 { zozzemonList &&
                     zozzemonList.map((z => (
-                        <Table.Row key={z.id}>
+                        <Table.Row key={z.id} onClick={()=> dispatch(setSelectedZozzemon(z.id))}>
                             <Table.Cell>{z.name}</Table.Cell>
                             <Table.Cell>{z.description}</Table.Cell>
                             <Table.Cell>{z.family}</Table.Cell>
