@@ -2,12 +2,17 @@ package com.cpe.irc5.asi2.grp1.card_manager.model;
 
 
 import com.cpe.irc5.asi2.grp1.public_card.dtos.CardBasics;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
+@Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class CardReference extends CardBasics implements Serializable {
 
     private static final long serialVersionUID = -7059808842444736266L;
