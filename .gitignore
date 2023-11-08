@@ -4,7 +4,8 @@
 react/node_modules
 react/.pnp
 react/.pnp.js
-NodeJS/node_modules/*
+NodeJS/chat_manager/node_modules/*
+NodeJS/fight_manager/node_modules/*
 
 # testing
 react/coverage
