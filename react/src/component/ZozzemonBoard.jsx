@@ -1,9 +1,28 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Icon, Table } from "semantic-ui-react";
- 
-const ZozzemonBoard = ({zozzemons}) => {
+import { useSelector, useDispatch } from 'react-redux';
+import { setZozzemonList } from "../core/reducers/zozzemonsSlice";
+const tmpZozzemons = require('../zozzemons.json');
+
+const ZozzemonBoard = () => {
+    const zozzemonList = useSelector(state => state.zozzemon.zozzemonList)
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        async function fetchZozzemons(){
+            try {
+                // await axios.get(process.env.REACT_APP_RPROXY+"cardsapi")
+                const result = tmpZozzemons;
+                dispatch(setZozzemonList(result));
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchZozzemons()
+    },[dispatch])
+
     return (
         <Table celled>
             <Table.Header>
@@ -19,8 +38,8 @@ const ZozzemonBoard = ({zozzemons}) => {
             </Table.Header>
 
             <Table.Body>
-                { zozzemons &&
-                    zozzemons.map((z => (
+                { zozzemonList &&
+                    zozzemonList.map((z => (
                         <Table.Row key={z.id}>
                             <Table.Cell>{z.name}</Table.Cell>
                             <Table.Cell>{z.description}</Table.Cell>
