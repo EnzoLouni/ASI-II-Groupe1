@@ -29,6 +29,9 @@ services:
     ports:
       - 61616:61616
       - 8161:8161
+    depends_on: 
+      - db
+      - reverseproxy
   userservice:
     container_name: vlad_thounine
     build:
