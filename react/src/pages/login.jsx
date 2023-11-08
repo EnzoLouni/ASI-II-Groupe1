@@ -13,7 +13,7 @@ const Login = () => {
     async function submitLoginForm(e){
         e.preventDefault()
             try {
-                // await axios.post(process.env.REACT_APP_AUTH_API,{
+                // await axios.post(process.env.REACT_APP_RPROXY+/authapi,{
                 //     login: loginRef.current.value,
                 //     password: passwordRef.current.value
                 // })
