@@ -1,0 +1,8 @@
+div.ui.grid{
+    margin: 0px;
+    padding: 0px;
+}
+
+div.ui.grid > div.column:not(.row), div.ui.grid > div.row > div.column{
+    width: auto;
+}
