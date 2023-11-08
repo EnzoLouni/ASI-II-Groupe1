@@ -8,9 +8,11 @@ import Play from './pages/play';
 import Login from './pages/login';
 import Register from './pages/register';
 import 'semantic-ui-css/semantic.min.css'
+import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <CookiesProvider>
     <Router>
       <Routes>
         <Route exact path='/' element={<Home/>}/>
@@ -21,4 +23,5 @@ root.render(
         <Route path='/register' element={<Register/>}/>
       </Routes>
     </Router>
+  </CookiesProvider>
 );

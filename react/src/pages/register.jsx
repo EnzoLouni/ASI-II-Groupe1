@@ -2,6 +2,7 @@
 import React, { useRef, useState } from "react";
 import axios from "axios";
 import { Form, Grid, GridColumn } from 'semantic-ui-react'
+import { useNavigate } from "react-router-dom";
  
 const Register = () => {
     const loginRef = useRef()
@@ -10,20 +11,21 @@ const Register = () => {
     const passwordRef = useRef()
     const repasswordRef = useRef()
     const [formError,setFormError] = useState(null)
+    const navigate = useNavigate();
 
     async function submitRegisterForm(e){
         e.preventDefault()
-        console.log(repasswordRef.current.value,passwordRef.current.value)
         if(passwordRef.current.value === repasswordRef.current.value)
         {
             try {
-                await axios.post(process.env.REACT_APP_USER_API,{
-                    login: loginRef.current.value,
-                    firstName: firstNameRef.current.value,
-                    lastName: lastNameRef.current.value,
-                    password: passwordRef.current.value
-                })
+                // await axios.post(process.env.REACT_APP_USER_API,{
+                //     login: loginRef.current.value,
+                //     firstName: firstNameRef.current.value,
+                //     lastName: lastNameRef.current.value,
+                //     password: passwordRef.current.value
+                // })
                 setFormError(null)
+                navigate("/login")
             } catch (error) {
                 setFormError(error.message)
             }
