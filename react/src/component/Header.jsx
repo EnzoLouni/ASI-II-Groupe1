@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Grid, GridColumn, Image, Label } from "semantic-ui-react";
+import { Grid, Image, Label } from "semantic-ui-react";
 import { useCookies } from 'react-cookie';
 import { Link, useLocation } from "react-router-dom";
  

@@ -1,7 +1,6 @@
 
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Grid, Icon, Table } from "semantic-ui-react";
+import { Table } from "semantic-ui-react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedZozzemon, setZozzemonList } from "../core/reducers/zozzemonsSlice";
 const tmpZozzemons = require('../zozzemons.json');
@@ -9,6 +8,7 @@ const tmpZozzemons = require('../zozzemons.json');
 const ZozzemonBoard = () => {
     const zozzemonList = useSelector(state => state.zozzemon.zozzemonList)
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
+
     const dispatch = useDispatch();
 
     useEffect(()=>{
@@ -23,6 +23,10 @@ const ZozzemonBoard = () => {
         }
         fetchZozzemons()
     },[dispatch])
+
+    useEffect(()=>{
+        console.log(selectedZozzemon)
+    },[selectedZozzemon])
 
     return (
         <Table celled>

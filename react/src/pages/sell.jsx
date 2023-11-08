@@ -1,8 +1,8 @@
 import { Container, Grid } from "semantic-ui-react";
 import Layout from "../component/Layout";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ZozzemonBoard from "../component/ZozzemonBoard";
-import axios from "axios";
+import ZozzemonCard from "../component/ZozzemonCard";
 
 const Sell = () => {
     return (
@@ -14,6 +14,7 @@ const Sell = () => {
                         <ZozzemonBoard/>
                     </Grid.Column>
                     <Grid.Column>
+                        <ZozzemonCard/>
                     </Grid.Column>
                 </Grid>
             </Container>
