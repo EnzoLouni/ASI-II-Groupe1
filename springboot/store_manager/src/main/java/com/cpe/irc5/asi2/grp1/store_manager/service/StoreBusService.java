@@ -1,4 +1,4 @@
-package com.cpe.irc5.asi2.grp1.user_manager.service;
+package com.cpe.irc5.asi2.grp1.store_manager.service;
 
 import com.cpe.irc5.asi2.grp1.commons.service.AbstractBusService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,14 +11,12 @@ import org.springframework.stereotype.Service;
 import javax.jms.MessageNotWriteableException;
 import java.net.ConnectException;
 
-
 @Service
 @Component
-public class NotificationBusService extends AbstractBusService {
-
-    @Value("${notification.busName}")
+public class StoreBusService extends AbstractBusService {
+    @Value("${store.busName}")
     private String busName;
-    public NotificationBusService(JmsTemplate jmsTemplate) {
+    public StoreBusService(JmsTemplate jmsTemplate) {
         super(jmsTemplate);
     }
     public void pushInQueue(ObjectNode content) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
