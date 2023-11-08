@@ -1,13 +1,15 @@
-
+import Layout from "../component/Layout";
 import React from "react";
  
 const Buy = () => {
     return (
-        <div>
-            <h1>
-                Buy
-            </h1>
-        </div>
+        <Layout>
+            <div>
+                <h1>
+                    Play
+                </h1>
+            </div>
+        </Layout>
     );
 };
  

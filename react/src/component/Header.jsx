@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Grid, GridColumn, Label } from "semantic-ui-react";
+import { Grid, GridColumn, Image, Label } from "semantic-ui-react";
 import { useCookies } from 'react-cookie';
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
  
 const Header = () => {
     const [cookies, setCookie] = useCookies(['user']);
@@ -30,15 +30,25 @@ const Header = () => {
     return (
         <Grid style={{borderBottom: "1px solid black",width:"100%"}} centered verticalAlign="middle">
             <Grid.Row>
-                <GridColumn floated="left">
+                <Grid.Column floated="left">
                     <Label size="massive">{cookies.zollex}Ƶ</Label>
-                </GridColumn>
-                <GridColumn>
-                    <h1>{locationName}</h1>
-                </GridColumn>
-                <GridColumn floated="right">
-                    <Label size="massive">{cookies.name}</Label>
-                </GridColumn>
+                </Grid.Column>
+                <Grid.Column verticalAlign="middle">
+                    <Grid>
+                        <Link to="/" style={{display:"inline"}}>
+                            <Image src="/image/zozzemon.jpg" size="small"/>
+                        </Link>
+                        <Label as="h1" style={{fontSize:"46px"}}>
+                            {locationName}
+                        </Label>
+                    </Grid>
+                </Grid.Column>
+                <Grid.Column floated="right">
+                    <Grid centered verticalAlign="middle">
+                        <Image src="/image/user.jpeg" size="small" style={{height:"100px",objectFit:"cover"}}/>
+                        <Label size="massive" style={{margin:"auto"}}>{cookies.name}</Label>
+                    </Grid>
+                </Grid.Column>
             </Grid.Row>
         </Grid>
     );
