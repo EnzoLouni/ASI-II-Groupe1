@@ -3,8 +3,7 @@ package com.cpe.irc5.asi2.grp1.user_manager.service;
 
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
-import com.cpe.irc5.asi2.grp1.commons.errors.handler.UserExceptionHandler;
-import com.cpe.irc5.asi2.grp1.user_manager.dto.UserDto;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.cpe.irc5.asi2.grp1.user_manager.mapper.UserMapper;
 import com.cpe.irc5.asi2.grp1.user_manager.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -31,7 +30,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class UserService extends UserExceptionHandler {
+public class UserService {
 
     private final UserRepository userRepository;
 

@@ -1,6 +1,6 @@
 package com.cpe.irc5.asi2.grp1.user_manager.mapper;
 
-import com.cpe.irc5.asi2.grp1.user_manager.dto.UserDto;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.cpe.irc5.asi2.grp1.user_manager.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
