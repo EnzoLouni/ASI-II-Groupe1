@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import React, { useRef, useState } from "react";
- 
+import { Form, Grid, GridColumn } from 'semantic-ui-react'
 const Login = () => {
     const loginRef = useRef()
     const passwordRef = useRef()
@@ -21,10 +21,11 @@ const Login = () => {
     }
 
     return (
-        <div className="eight wide column">
-            <fieldset>
-                <legend>Login</legend>
-                    <form onSubmit={submitLoginForm} className="ui large form">
+        <Grid centered style={{height: '100vh'}} verticalAlign="middle">
+            <GridColumn width={8}>
+                <fieldset>
+                    <legend>Login</legend>
+                    <Form onSubmit={submitLoginForm}>
                         <div className="field">
                             <label htmlFor="login">Login</label>
                             <input type="text" id="login" ref={loginRef} required/>
@@ -36,9 +37,10 @@ const Login = () => {
                         <a href="/" className="ui basic button">Cancel</a>
                         <button type="submit" className="ui primary button">OK</button>
                         {formError && <p className="ui error message">{formError}</p>}
-                    </form>
-            </fieldset>
-        </div>
+                    </Form>
+                </fieldset>
+            </GridColumn>
+        </Grid>
     );
 };
  

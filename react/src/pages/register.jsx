@@ -1,6 +1,7 @@
 
 import React, { useRef, useState } from "react";
 import axios from "axios";
+import { Form, Grid, GridColumn } from 'semantic-ui-react'
  
 const Register = () => {
     const loginRef = useRef()
@@ -32,36 +33,36 @@ const Register = () => {
     }
 
     return (
-        <div className="eight wide column">
-            <fieldset>
+        <Grid centered style={{height: '100vh'}} verticalAlign="middle">
+            <GridColumn width={8}>
                 <legend>Register</legend>
-                    <form onSubmit={submitRegisterForm} className="ui large form">
-                        <div className="field">
-                            <label htmlFor="login">Login</label>
-                            <input type="text" id="login" ref={loginRef} required/>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="firstName">First name</label>
-                            <input type="text" id="firstName" ref={firstNameRef} required/>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="lastName">Last name</label>
-                            <input type="text" id="lastName" ref={lastNameRef} required/>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="password">Password</label>
-                            <input type="password" id="password" ref={passwordRef} required/>
-                        </div>
-                        <div className="field">
-                            <label htmlFor="repassword">Re-password</label>
-                            <input type="password" id="repassword" ref={repasswordRef} required/>
-                        </div>
-                        <a href="/" className="ui basic button">Cancel</a>
-                        <button type="submit" className="ui primary button">OK</button>
-                        {formError && <p className="ui error message">{formError}</p>}
-                    </form>
-            </fieldset>
-        </div>
+                <Form onSubmit={submitRegisterForm}>
+                    <div className="field">
+                        <label htmlFor="login">Login</label>
+                        <input type="text" id="login" ref={loginRef} required/>
+                    </div>
+                    <div className="field">
+                        <label htmlFor="firstName">First name</label>
+                        <input type="text" id="firstName" ref={firstNameRef} required/>
+                    </div>
+                    <div className="field">
+                        <label htmlFor="lastName">Last name</label>
+                        <input type="text" id="lastName" ref={lastNameRef} required/>
+                    </div>
+                    <div className="field">
+                        <label htmlFor="password">Password</label>
+                        <input type="password" id="password" ref={passwordRef} required/>
+                    </div>
+                    <div className="field">
+                        <label htmlFor="repassword">Re-password</label>
+                        <input type="password" id="repassword" ref={repasswordRef} required/>
+                    </div>
+                    <a href="/" className="ui basic button">Cancel</a>
+                    <button type="submit" className="ui primary button">OK</button>
+                    {formError && <p className="ui error message">{formError}</p>}
+                </Form>
+            </GridColumn>
+        </Grid>
     );
 };
  
