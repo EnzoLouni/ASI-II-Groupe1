@@ -40,6 +40,8 @@ services:
     image: schtoukai/vlad_thounine_img
     ports:
       - 8081:8081
+    environment:
+      - spring.activemq.broker-url=tcp://active_moelle:61616
     depends_on:
       - db
       - reverseproxy
@@ -76,6 +78,18 @@ services:
     image: schtoukai/moauthias_img
     ports:
       - 8084:8084
+    depends_on:
+      - db
+      - reverseproxy
+      - activemq
+  notifservice:
+    container_name: thonyfier
+    build:
+        context: ./springboot/notif_manager
+        dockerfile: Dockerfile
+    image: schtoukai/thonyfier_img
+    ports:
+      - 8085:8085
     depends_on:
       - db
       - reverseproxy

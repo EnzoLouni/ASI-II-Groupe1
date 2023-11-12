@@ -16,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 
+import java.net.ConnectException;
+
 import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toObjectNode;
 
 @RequiredArgsConstructor
@@ -47,6 +49,8 @@ public class ActiveMqBus {
         } catch (JMSException e) {
             throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        } catch (ConnectException e) {
             throw new RuntimeException(e);
         }
     }

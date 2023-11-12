@@ -32,3 +32,16 @@ CREATE TABLE public.card (
 	price FLOAT,
     CONSTRAINT PK_CARD PRIMARY KEY (id)
 );
+
+CREATE DATABASE store_manager;
+\c store_manager;
+
+DROP TABLE IF EXISTS public.store;
+CREATE TABLE public.store_transaction (
+    id            serial,
+    user_id       integer,
+    card_id	      integer,
+    action	      varchar(30),
+    timestamp	  date,
+    CONSTRAINT PK_STORE_TRANSACTION PRIMARY KEY (id)
+);

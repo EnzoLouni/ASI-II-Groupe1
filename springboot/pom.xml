@@ -21,6 +21,7 @@
 		<module>card_manager</module>
 		<module>store_manager</module>
 		<module>auth_manager</module>
+		<module>notif_manager</module>
 	</modules>
 
 	<properties>
@@ -32,6 +33,11 @@
 		<dependency>
 			<groupId>com.cpe.irc5.asi2.grp1</groupId>
 			<artifactId>commons</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.cpe.irc5.asi2.grp1.notif_manager</groupId>
+			<artifactId>public-notif</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

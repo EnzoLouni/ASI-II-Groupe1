@@ -22,6 +22,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.cpe.irc5.asi2.grp1</groupId>
+            <artifactId>commons</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>2.2.1.RELEASE</version>
