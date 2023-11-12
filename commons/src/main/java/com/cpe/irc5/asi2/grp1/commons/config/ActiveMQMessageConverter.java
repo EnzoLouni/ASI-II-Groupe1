@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import javax.jms.JMSException;
 import javax.jms.MessageNotWriteableException;
 
+import java.util.UUID;
+
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.GROUP;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.TYPE;
 
@@ -24,10 +26,17 @@ public class ActiveMQMessageConverter {
         ActiveMQTextMessage message = new ActiveMQTextMessage();
         GroupID groupID = objectMapper.convertValue(content.get(GROUP), GroupID.class);
         RequestType requestType = objectMapper.convertValue(content.get(TYPE), RequestType.class);
+        String userId = objectMapper.convertValue(content.get("userId"), String.class);
         message.setGroupID(groupID.name());
         content.remove(GROUP);
-        message.setType(requestType.name());
-        content.remove(TYPE);
+        if(requestType != null) {
+            message.setType(requestType.name());
+            content.remove(TYPE);
+        }
+        if(userId != null) {
+            message.setUserID(userId);
+            content.remove("userId");
+        }
         message.setText(objectMapper.writeValueAsString(content));
         return message;
     }

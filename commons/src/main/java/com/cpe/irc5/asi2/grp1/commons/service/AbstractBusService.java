@@ -17,7 +17,7 @@ import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toT
 @AllArgsConstructor
 @Slf4j
 @Service
-public class AbstractBusService implements Bus {
+public abstract class AbstractBusService implements Bus {
 
     private JmsTemplate jmsTemplate;
     @Override
