@@ -6,3 +6,8 @@ div.ui.grid{
 div.ui.grid > div.column:not(.row), div.ui.grid > div.row > div.column{
     width: auto;
 }
+
+.zozzBoardRow:hover{
+    cursor: pointer;
+    background-color: rgb(224, 225, 226);
+}

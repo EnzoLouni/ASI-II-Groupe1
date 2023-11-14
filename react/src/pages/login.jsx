@@ -27,7 +27,7 @@ const Login = () => {
     }
 
     return (
-        <Grid centered style={{height: '100vh'}} verticalAlign="middle">
+        <Grid centered style={{height: '100vh',width:"100%"}} verticalAlign="middle">
             <GridColumn width={8}>
                 <fieldset>
                     <legend>Login</legend>

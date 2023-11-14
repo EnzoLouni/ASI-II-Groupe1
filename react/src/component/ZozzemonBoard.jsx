@@ -29,7 +29,7 @@ const ZozzemonBoard = () => {
     },[selectedZozzemon])
 
     return (
-        <Table celled>
+        <Table celled style={{display:"block",maxHeight:"75vh",overflowY:"scroll"}}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Name</Table.HeaderCell>
@@ -45,7 +45,7 @@ const ZozzemonBoard = () => {
             <Table.Body>
                 { zozzemonList &&
                     zozzemonList.map((z => (
-                        <Table.Row key={z.id} onClick={()=> dispatch(setSelectedZozzemon(z.id))}>
+                        <Table.Row key={z.id} className="zozzBoardRow" onClick={()=> dispatch(setSelectedZozzemon(z.id))}>
                             <Table.Cell>{z.name}</Table.Cell>
                             <Table.Cell>{z.description}</Table.Cell>
                             <Table.Cell>{z.family}</Table.Cell>
@@ -60,8 +60,13 @@ const ZozzemonBoard = () => {
 
             <Table.Footer>
                 <Table.Row>
-                    <Table.HeaderCell colSpan='7'>
-                    </Table.HeaderCell>
+                    <Table.HeaderCell>Name</Table.HeaderCell>
+                    <Table.HeaderCell>Description</Table.HeaderCell>
+                    <Table.HeaderCell>Family</Table.HeaderCell>
+                    <Table.HeaderCell>Affinity</Table.HeaderCell>
+                    <Table.HeaderCell>Energy</Table.HeaderCell>
+                    <Table.HeaderCell>HP</Table.HeaderCell>
+                    <Table.HeaderCell>Price</Table.HeaderCell>
                 </Table.Row>
             </Table.Footer>
         </Table>
