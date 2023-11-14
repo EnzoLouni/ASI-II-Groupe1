@@ -1,7 +1,7 @@
 
 import React, { useRef, useState } from "react";
 import axios from "../core/axiosMockInstance";
-import { Form, Grid, GridColumn } from 'semantic-ui-react'
+import { Form, Grid } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom";
  
 const Register = () => {
@@ -40,7 +40,7 @@ const Register = () => {
 
     return (
         <Grid centered style={{height: '100vh',width:"100%"}} verticalAlign="middle">
-            <GridColumn width={8}>
+            <Grid.Column width={8}>
                 <legend>Register</legend>
                 <Form onSubmit={submitRegisterForm}>
                     <div className="field">
@@ -66,7 +66,7 @@ const Register = () => {
                     <button type="submit" className="ui primary button">OK</button>
                     {formError && <p className="ui error message">{formError}</p>}
                 </Form>
-            </GridColumn>
+            </Grid.Column>
         </Grid>
     );
 };

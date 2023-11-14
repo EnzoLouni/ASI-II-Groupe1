@@ -2,7 +2,7 @@
 import axios from "../core/axiosMockInstance";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Form, Grid, GridColumn } from 'semantic-ui-react'
+import { Form, Grid } from 'semantic-ui-react'
 import { setCurrentUser } from "../core/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -33,7 +33,7 @@ const Login = () => {
 
     return (
         <Grid centered style={{height: '100vh',width:"100%"}} verticalAlign="middle">
-            <GridColumn width={8}>
+            <Grid.Column width={8}>
                 <fieldset>
                     <legend>Login</legend>
                     <Form onSubmit={submitLoginForm}>
@@ -50,7 +50,7 @@ const Login = () => {
                         {formError && <p className="ui error message">{formError}</p>}
                     </Form>
                 </fieldset>
-            </GridColumn>
+            </Grid.Column>
         </Grid>
     );
 };

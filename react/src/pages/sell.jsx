@@ -30,12 +30,14 @@ const Sell = () => {
                         <Grid.Column computer={10}>
                             <ZozzemonBoard/>
                         </Grid.Column>
+                        {selectedZozzemon && 
                         <Grid.Column computer={6} verticalAlign="middle">
                             <Grid verticalAlign="middle" centered>
                                 <ZozzemonCard/>
-                                {selectedZozzemon && <Button onClick={sellCard} style={{width:"320px",marginTop:"32px"}}>Sell</Button>}
+                                <Button onClick={sellCard} style={{width:"320px",marginTop:"32px"}}>Sell</Button>
                             </Grid>
                         </Grid.Column>
+                        }
                     </Grid.Row>
                 </Grid>
             </Container>

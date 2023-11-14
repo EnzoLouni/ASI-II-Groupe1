@@ -36,6 +36,8 @@ const ZozzemonBoard = () => {
                     <Table.HeaderCell>Affinity</Table.HeaderCell>
                     <Table.HeaderCell>Energy</Table.HeaderCell>
                     <Table.HeaderCell>HP</Table.HeaderCell>
+                    <Table.HeaderCell>Attack</Table.HeaderCell>
+                    <Table.HeaderCell>Defense</Table.HeaderCell>
                     <Table.HeaderCell>Price</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -50,6 +52,8 @@ const ZozzemonBoard = () => {
                             <Table.Cell>{z.affinity}</Table.Cell>
                             <Table.Cell>{z.energy}</Table.Cell>
                             <Table.Cell>{z.hp}</Table.Cell>
+                            <Table.Cell>{z.attack}</Table.Cell>
+                            <Table.Cell>{z.defense}</Table.Cell>
                             <Table.Cell>{z.price}</Table.Cell>
                         </Table.Row>
                     )))

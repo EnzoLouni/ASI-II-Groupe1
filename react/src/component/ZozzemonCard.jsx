@@ -7,8 +7,6 @@ import { useSelector } from 'react-redux';
 
 const ZozzemonCard = () => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
-
-    if(selectedZozzemon) 
     return (
         
         <Grid verticalAlign="middle" centered>
