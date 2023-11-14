@@ -3,7 +3,7 @@ import { axiosMockAdapterInstance } from "./axiosMockInstance";
 axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"userapi").reply(200)
 axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"authapi").reply(200, {
     id:1,
-    login:"ZOZZ",
+    login:"ZOZZER",
     wallet:2022
 })
 axiosMockAdapterInstance.onGet(process.env.REACT_APP_RPROXY+"cardapi").reply(200,

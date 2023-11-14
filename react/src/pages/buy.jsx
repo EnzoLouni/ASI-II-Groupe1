@@ -3,17 +3,17 @@ import Layout from "../component/Layout";
 import React from "react";
 import ZozzemonBoard from "../component/ZozzemonBoard";
 import ZozzemonCard from "../component/ZozzemonCard";
-import axios from "axios";
+import axios from "../core/axiosMockInstance";
 import { useSelector } from "react-redux";
 
 const Buy = () => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
     const currentUser = useSelector(state => state.user.currentUser)
     
-    async function buyCard(e){
+    async function buyCard(){
         try {
             await axios.post(process.env.REACT_APP_RPROXY+"storeapi",{
-                cardId: selectedZozzemon,
+                cardId: selectedZozzemon.id,
                 userId: currentUser.id
             })
         } catch (error) {

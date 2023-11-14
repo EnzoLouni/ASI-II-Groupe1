@@ -1,6 +1,6 @@
 
 import React, { useRef, useState } from "react";
-import axios from "axios";
+import axios from "../core/axiosMockInstance";
 import { Form, Grid, GridColumn } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom";
  
@@ -15,19 +15,23 @@ const Register = () => {
 
     async function submitRegisterForm(e){
         e.preventDefault()
+        console.log(axios)
         if(passwordRef.current.value === repasswordRef.current.value)
         {
             try {
-                await axios.post(process.env.REACT_APP_RPROXY+"userapi",{
+                const registerPr = await axios.post(process.env.REACT_APP_RPROXY+"userapi",{
                     login: loginRef.current.value,
                     firstName: firstNameRef.current.value,
                     lastName: lastNameRef.current.value,
                     password: passwordRef.current.value
                 })
-                setFormError(null)
-                navigate("/login")
+                if(registerPr.status === 200){
+                    setFormError(null)
+                    navigate("/login")
+                }
             } catch (error) {
                 setFormError(error.message)
+                console.log(error)
             }
         } else {
             setFormError("Passwords do not match")

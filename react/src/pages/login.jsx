@@ -1,5 +1,5 @@
 
-import axios from "axios";
+import axios from "../core/axiosMockInstance";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Form, Grid, GridColumn } from 'semantic-ui-react'
@@ -16,14 +16,15 @@ const Login = () => {
     async function submitLoginForm(e){
         e.preventDefault()
             try {
-                // const newUser = await axios.post(process.env.REACT_APP_RPROXY+"authapi",{
-                //     login: loginRef.current.value,
-                //     password: passwordRef.current.value
-                // })
-                setFormError(null)
-                const newUser = {id:1,login:"ZOZZ",wallet:2022}
-                dispatch(setCurrentUser(newUser));
-                navigate("/")
+                const newUserPr = await axios.post(process.env.REACT_APP_RPROXY+"authapi",{
+                    login: loginRef.current.value,
+                    password: passwordRef.current.value
+                })
+                if(newUserPr.data){
+                    setFormError(null)
+                    dispatch(setCurrentUser(newUserPr.data));
+                    navigate("/")
+                }
 
             } catch (error) {
                 setFormError(error.message)

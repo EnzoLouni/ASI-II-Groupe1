@@ -3,20 +3,18 @@ import React, { useEffect } from "react";
 import { Table } from "semantic-ui-react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedZozzemon, setZozzemonList } from "../core/reducers/zozzemonsSlice";
-const tmpZozzemons = require('../zozzemons.json');
+import axios from "../core/axiosMockInstance";
 
 const ZozzemonBoard = () => {
     const zozzemonList = useSelector(state => state.zozzemon.zozzemonList)
-    const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
 
     const dispatch = useDispatch();
 
     useEffect(()=>{
         async function fetchZozzemons(){
             try {
-                // await axios.get(process.env.REACT_APP_RPROXY+"cardsapi")
-                const result = tmpZozzemons;
-                dispatch(setZozzemonList(result));
+                const zozzemonListPr = await axios.get(process.env.REACT_APP_RPROXY+"cardapi")
+                dispatch(setZozzemonList(zozzemonListPr.data));
             } catch (error) {
                 console.log(error)
             }
