@@ -8,7 +8,6 @@ import Play from './pages/play';
 import Login from './pages/login';
 import Register from './pages/register';
 import 'semantic-ui-css/semantic.min.css'
-import { CookiesProvider } from "react-cookie";
 import { Provider } from 'react-redux';
 import store from './core/store';
 
@@ -16,17 +15,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <CookiesProvider>
-      <Router>
-        <Routes>
-          <Route exact path='/' element={<Home/>}/>
-          <Route path='/buy' element={<Buy/>}/>
-          <Route path='/sell' element={<Sell/>}/>
-          <Route path='/play' element={<Play/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/register' element={<Register/>}/>
-        </Routes>
-      </Router>
-    </CookiesProvider>
+    <Router>
+      <Routes>
+        <Route exact path='/' element={<Home/>}/>
+        <Route path='/buy' element={<Buy/>}/>
+        <Route path='/sell' element={<Sell/>}/>
+        <Route path='/play' element={<Play/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
+      </Routes>
+    </Router>
   </Provider>
 );

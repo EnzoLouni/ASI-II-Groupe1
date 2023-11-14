@@ -1,6 +1,6 @@
 
 import React, { useEffect } from "react";
-import { Container, Divider, Grid, GridRow } from "semantic-ui-react";
+import { Container, Divider, Grid } from "semantic-ui-react";
 import { useSelector } from 'react-redux';
 
 
@@ -33,7 +33,7 @@ const ZozzemonCard = ({type}) => {
                         <div className="image imageCard">
                             <div className="blurring dimmable image">
                                 <div className="ui fluid image">
-                                    <a className="ui left corner label">
+                                    <a href="#" className="ui left corner label">
                                     {selectedZozzemon.name}
                                     </a>
                                     <img id="cardImgId" className="ui centered image" src="https://static.hitek.fr/img/actualite/2017/06/27/i_deadpool-2.jpg"/>

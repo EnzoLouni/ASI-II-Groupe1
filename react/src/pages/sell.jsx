@@ -11,10 +11,14 @@ const Sell = () => {
     const currentUser = useSelector(state => state.user.currentUser)
     
     async function sellCard(e){
-        await axios.post(process.env.REACT_APP_RPROXY+"storeapi",{
-            cardId: selectedZozzemon,
-            userId: currentUser.id
-        })
+        try {
+            await axios.post(process.env.REACT_APP_RPROXY+"storeapi",{
+                cardId: selectedZozzemon,
+                userId: currentUser.id
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
