@@ -1,11 +1,11 @@
 
 import React, { useEffect } from "react";
-import { Container, Grid } from "semantic-ui-react";
+import { Container, Divider, Grid, GridRow } from "semantic-ui-react";
 import { useSelector } from 'react-redux';
 
 
 
-const ZozzemonCard = () => {
+const ZozzemonCard = ({type}) => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
     
     useEffect(()=>{
@@ -36,13 +36,6 @@ const ZozzemonCard = () => {
                         </div>
                         <div className="image imageCard">
                             <div className="blurring dimmable image">
-                                <div className="ui inverted dimmer">
-                                    <div className="content">
-                                        <div className="center">
-                                            <div className="ui primary button">Add Zozzer</div>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div className="ui fluid image">
                                     <a className="ui left corner label">
                                     {selectedZozzemon.name}
@@ -59,25 +52,30 @@ const ZozzemonCard = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="content">
-                            <i className="heart outline icon"></i><span id="cardHPId">{selectedZozzemon.hp}</span> 
-                            <div className="right floated ">
-                                    <span id="cardEnergyId">{selectedZozzemon.energy}</span>
-                                <i className="lightning icon"></i>
-                            </div>
-                        </div>
-                        <div className="content">
-                            <span className="right floated">
-                                    <span id="cardAttackId">{selectedZozzemon.attack}</span> 
-                                <i className=" wizard icon"></i>
-                            </span>
-                            <i className="protect icon"></i>
-                            <span id="cardDefenceId">{selectedZozzemon.defense}</span> 
-                        </div>
-                        <div className="ui bottom attached button">
+                        <Grid centered stretched>
+                            <Grid.Row>
+                                <Grid.Column computer={8}>
+                                    <i className="heart outline icon"></i><span id="cardHPId">{selectedZozzemon.hp}</span>  
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <i className="lightning icon"></i><span id="cardEnergyId">{selectedZozzemon.energy}</span>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Divider/>
+                            <Grid.Row>
+                                <Grid.Column computer={8}>
+                                    <i className=" wizard icon"></i><span id="cardAttackId">{selectedZozzemon.attack}</span> 
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <i className="protect icon"></i><span id="cardDefenceId">{selectedZozzemon.defense}</span> 
+                                </Grid.Column>
+                            </Grid.Row>
+
+                        </Grid>
+                        <Container style={{margin:"16px"}}>
                             <i className="money icon"></i>
-                            Actual Value <span id="cardPriceId">{selectedZozzemon.price}</span>
-                        </div>
+                            Zozzer price <span id="cardPriceId">{selectedZozzemon.price}Ƶ</span>
+                        </Container>
                     </div>
                 </div>
             </div>

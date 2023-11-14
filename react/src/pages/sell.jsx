@@ -17,6 +17,7 @@ const Sell = () => {
                         <Grid.Column computer={6} verticalAlign="middle">
                             <Grid verticalAlign="middle" centered>
                                 <ZozzemonCard/>
+                                <Button style={{width:"320px",marginTop:"32px"}}>Sell</Button>
                             </Grid>
                         </Grid.Column>
                     </Grid.Row>
