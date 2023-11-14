@@ -7,10 +7,6 @@ import { useSelector } from 'react-redux';
 
 const ZozzemonCard = ({type}) => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
-    
-    useEffect(()=>{
-        console.log(selectedZozzemon)
-    },[selectedZozzemon])
 
     if(selectedZozzemon) 
     return (

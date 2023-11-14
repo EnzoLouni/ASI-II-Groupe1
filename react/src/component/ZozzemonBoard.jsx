@@ -24,10 +24,6 @@ const ZozzemonBoard = () => {
         fetchZozzemons()
     },[dispatch])
 
-    useEffect(()=>{
-        console.log(selectedZozzemon)
-    },[selectedZozzemon])
-
     return (
         <Table celled style={{display:"block",maxHeight:"75vh",overflowY:"scroll"}}>
             <Table.Header>

@@ -59,7 +59,6 @@ const Register = () => {
                         <label htmlFor="repassword">Re-password</label>
                         <input type="password" id="repassword" ref={repasswordRef} required/>
                     </div>
-                    <a href="/" className="ui basic button">Cancel</a>
                     <button type="submit" className="ui primary button">OK</button>
                     {formError && <p className="ui error message">{formError}</p>}
                 </Form>
