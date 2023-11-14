@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 const Sell = () => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
     const currentUser = useSelector(state => state.user.currentUser)
-    
+
     async function sellCard(e){
         try {
             await axios.post(process.env.REACT_APP_RPROXY+"storeapi",{
@@ -33,7 +33,7 @@ const Sell = () => {
                         <Grid.Column computer={6} verticalAlign="middle">
                             <Grid verticalAlign="middle" centered>
                                 <ZozzemonCard/>
-                                <Button onClick={sellCard} style={{width:"320px",marginTop:"32px"}}>Sell</Button>
+                                {selectedZozzemon && <Button onClick={sellCard} style={{width:"320px",marginTop:"32px"}}>Sell</Button>}
                             </Grid>
                         </Grid.Column>
                     </Grid.Row>

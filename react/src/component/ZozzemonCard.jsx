@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 
 
-const ZozzemonCard = ({type}) => {
+const ZozzemonCard = () => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
 
     if(selectedZozzemon) 
@@ -48,7 +48,7 @@ const ZozzemonCard = ({type}) => {
                                 </div>
                             </div>
                         </div>
-                        <Grid centered stretched>
+                        <Grid centered>
                             <Grid.Row>
                                 <Grid.Column computer={8}>
                                     <i className="heart outline icon"></i><span id="cardHPId">{selectedZozzemon.hp}</span>  

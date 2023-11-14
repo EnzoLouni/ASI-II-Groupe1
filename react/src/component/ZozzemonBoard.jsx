@@ -24,8 +24,12 @@ const ZozzemonBoard = () => {
         fetchZozzemons()
     },[dispatch])
 
+    useEffect(()=>{
+        dispatch(setSelectedZozzemon(null))
+    },[])
+
     return (
-        <Table celled style={{display:"block",maxHeight:"75vh",overflowY:"scroll"}}>
+        <Table celled style={{display:"block",maxHeight:"74vh",overflowY:"scroll"}}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell>Name</Table.HeaderCell>
@@ -53,18 +57,6 @@ const ZozzemonBoard = () => {
                     )))
                 }
             </Table.Body>
-
-            <Table.Footer>
-                <Table.Row>
-                    <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Description</Table.HeaderCell>
-                    <Table.HeaderCell>Family</Table.HeaderCell>
-                    <Table.HeaderCell>Affinity</Table.HeaderCell>
-                    <Table.HeaderCell>Energy</Table.HeaderCell>
-                    <Table.HeaderCell>HP</Table.HeaderCell>
-                    <Table.HeaderCell>Price</Table.HeaderCell>
-                </Table.Row>
-            </Table.Footer>
         </Table>
     );
 };
