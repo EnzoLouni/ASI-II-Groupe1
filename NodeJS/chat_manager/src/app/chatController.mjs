@@ -15,7 +15,6 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-
 let usersJSON = JSON.parse(await fetchUsers().then((users) => JSON.stringify(users)));
 console.log("--------------------------------------");
 console.log("This is the result of the API call : ");
@@ -53,35 +52,29 @@ myEmitter.on('general', () => {
 //à commenter quand le front react seras fonctionnel
 myEmitter.emit('general');
 
-myEmitter.on('u2u', () => {
-   console.log('u2u');
-
-   let rooms = {};
+myEmitter.on('u2u', (uidsrc, uiddest) => {
+   console.log('u2u args : ' + uidsrc + ' ' + uiddest);
 
    io.on('connection', (socket) => {
       console.log('A user connected');
-
+      if (socket.rooms.has('room'+uiddest+'-'+uidsrc)) {
+         socket.join('room'+uiddest+'-'+uidsrc);
+      }else{
+         socket.join('room'+uidsrc+'-'+uiddest);
+      }
       socket.on('disconnect', () => {
          console.log('A user disconnected');
       });
 
-      socket.on('join room', (roomName) => {
-         if (rooms[roomName]) {
-            rooms[roomName].push(socket.id);
-         } else {
-            rooms[roomName] = [socket.id];
-         }
-         socket.join(roomName);
-      });
-
-      socket.on('chat message', (msg, uid) => {
-         socket.to(uid).emit('chat message', msg);
+      socket.on('chat message', (msg, room) => {
+         
+         socket.to(room).emit('chat message', msg);
       });
    });
 });
 
 //à commenter quand le front react seras fonctionnel
-myEmitter.emit('u2u');
+myEmitter.emit('u2u', 1, 3);
 
 // io.on('connection', (socket) => {
 //   console.log('A user connected');
