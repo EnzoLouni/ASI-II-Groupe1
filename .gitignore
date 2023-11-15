@@ -27,7 +27,8 @@ react/yarn-error.log*
 
 -------------------------------------------
 
-/target/
+commons/target/*
+springboot/*/target/*
 .metadata/
 .settings/
 .project
