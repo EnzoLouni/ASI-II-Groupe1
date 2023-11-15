@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, { cors: { origin: '*' } });
 
 let usersJSON = JSON.parse(await fetchUsers().then((users) => JSON.stringify(users)));
 console.log("--------------------------------------");
