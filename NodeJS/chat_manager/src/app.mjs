@@ -7,7 +7,7 @@ import { server, app, io } from './app/chatController.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const port = 3000;
+const port = 3001;
 
 server.listen(port, () => {
  console.log('listening on *:'+port);
