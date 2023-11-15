@@ -3,9 +3,6 @@ import React from "react";
 import Layout from "../component/Layout";
 import ChatBox from "../component/ChatBox";
 import { Container, Grid } from "semantic-ui-react";
-import GameShortCard from "../component/GameShortCard";
-import GameFullCard from "../component/GameFullCard";
-import GameUser from "../component/GameUser";
 import BoardSide from "../component/BoardSide";
  
 const Play = () => {

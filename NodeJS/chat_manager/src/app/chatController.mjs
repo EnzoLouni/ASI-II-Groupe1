@@ -31,47 +31,35 @@ app.get('/', (req, res) => {
 //------------------------------------------------------------
 
 
-class MyEmitter extends EventEmitter {}
-const myEmitter = new MyEmitter();
 
-myEmitter.on('chat', (uidsrc, uiddest) => {
-   console.log('chat args : ' + uidsrc + ' ' + uiddest);
 
    io.on('connection', (socket) => {
       console.log('A user connected');
 
       socket.on('getUsers', () => {
-         socket.emit('user', usersJSON);
+         console.log('jenvoie');
+         socket.emit('users', usersJSON);
       });
 
-      socket.on('join', (room) => {
-         if (socket.rooms.has(room)) {
-            socket.join('room'+uiddest+'-'+uidsrc);
-         }else{
-            socket.join('room'+uidsrc+'-'+uiddest);
-         }
-         socket.on('disconnect', () => {
-            console.log('A user disconnected');
-         });
+      socket.on('join', (uidsrc, uiddest) => {
+         if(!uiddest) socket.join("general")
+
+         const roomName = uiddest < uidsrc ? 'room'+uiddest+'-'+uidsrc : 'room'+uidsrc+'-'+uiddest
+         console.log(roomName)
+         socket.join(roomName)
+         socket.emit("room name",roomName)
       });
-      if (socket.rooms.has('room'+uiddest+'-'+uidsrc)) {
-         socket.join('room'+uiddest+'-'+uidsrc);
-      }else{
-         socket.join('room'+uidsrc+'-'+uiddest);
-      }
+
       socket.on('disconnect', () => {
          console.log('A user disconnected');
       });
 
       socket.on('chat message', (msg, room) => {
-         
+         console.log(msg)
          socket.to(room).emit('chat message', msg);
       });
    });
-});
 
-//à commenter quand le front react seras fonctionnel
-myEmitter.emit('chat', 1, 3);
 
 // io.on('connection', (socket) => {
 //   console.log('A user connected');
