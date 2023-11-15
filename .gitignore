@@ -6,6 +6,7 @@ react/.pnp
 react/.pnp.js
 NodeJS/chat_manager/node_modules/*
 NodeJS/fight_manager/node_modules/*
+NodeJS/Package-lock.json
 
 # testing
 react/coverage
@@ -48,3 +49,5 @@ springboot/user_manager/src/test
 springboot/store_manager/target
 springboot/store_manager/src/test
 
+commons/target/classes/com/cpe/irc5/asi2/grp1/commons/enums/GroupID.class
+commons/target/classes/com/cpe/irc5/asi2/grp1/commons/service/BusService.class
