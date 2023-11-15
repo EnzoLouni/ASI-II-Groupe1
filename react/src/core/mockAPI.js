@@ -2,7 +2,7 @@ import { axiosMockAdapterInstance } from "./axiosMockInstance";
 
 axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"userapi").reply(200)
 axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"authapi").reply(200, {
-    id:1,
+    id:10,
     login:"ZOZZER",
     wallet:2022
 })
