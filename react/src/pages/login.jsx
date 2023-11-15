@@ -1,16 +1,15 @@
 
 import axios from "../core/axiosMockInstance";
 import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Form, Grid } from 'semantic-ui-react'
-import { setCurrentUser } from "../core/reducers/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 
 const Login = () => {
     const loginRef = useRef()
     const passwordRef = useRef()
     const [formError,setFormError] = useState(null)
-    const dispatch = useDispatch();
+    const [userCookies, setUserCookies] = useCookies(['user']);
     const navigate = useNavigate();
 
     async function submitLoginForm(e){
@@ -22,7 +21,9 @@ const Login = () => {
                 })
                 if(newUserPr.data){
                     setFormError(null)
-                    dispatch(setCurrentUser(newUserPr.data));
+                    setUserCookies('id',newUserPr.data.id)
+                    setUserCookies('login',newUserPr.data.login)
+                    setUserCookies('wallet',newUserPr.data.wallet)
                     navigate("/")
                 }
 

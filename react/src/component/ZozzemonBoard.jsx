@@ -11,6 +11,7 @@ const ZozzemonBoard = () => {
     const dispatch = useDispatch();
 
     useEffect(()=>{
+        dispatch(setSelectedZozzemon(null))
         async function fetchZozzemons(){
             try {
                 const zozzemonListPr = await axios.get(process.env.REACT_APP_RPROXY+"cardapi")
@@ -21,10 +22,6 @@ const ZozzemonBoard = () => {
         }
         fetchZozzemons()
     },[dispatch])
-
-    useEffect(()=>{
-        dispatch(setSelectedZozzemon(null))
-    },[])
 
     return (
         <Table celled style={{display:"block",maxHeight:"74vh",overflowY:"scroll"}}>

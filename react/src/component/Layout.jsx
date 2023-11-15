@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import Header from "./Header";
 import { Grid } from "semantic-ui-react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
  
 const Layout = ({ children }) => {
-    const currentUser = useSelector(state => state.user.currentUser)
+    const [userCookies, setUserCookies] = useCookies(['user']);
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if(!currentUser.id) navigate("/login")
-    },[currentUser])
+        if(!userCookies.id) navigate("/login")
+    },[userCookies,navigate])
 
     return (
         <Grid style={{height: "100vh",width:"100%"}}>

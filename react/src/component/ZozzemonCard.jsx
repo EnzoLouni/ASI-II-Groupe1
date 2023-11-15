@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Container, Divider, Grid } from "semantic-ui-react";
 import { useSelector } from 'react-redux';
 
@@ -34,7 +34,7 @@ const ZozzemonCard = () => {
                                     <a href="#" className="ui left corner label">
                                     {selectedZozzemon.name}
                                     </a>
-                                    <img id="cardImgId" className="ui centered image" src="https://static.hitek.fr/img/actualite/2017/06/27/i_deadpool-2.jpg"/>
+                                    <img id="cardImgId" alt="zozz-2022" className="ui centered image" src="https://static.hitek.fr/img/actualite/2017/06/27/i_deadpool-2.jpg"/>
                                 </div>
                             </div>
                         </div>

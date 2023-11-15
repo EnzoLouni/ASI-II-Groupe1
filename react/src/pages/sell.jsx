@@ -5,16 +5,18 @@ import ZozzemonBoard from "../component/ZozzemonBoard";
 import ZozzemonCard from "../component/ZozzemonCard";
 import axios from "../core/axiosMockInstance";
 import { useSelector } from "react-redux";
+import { useCookies } from "react-cookie";
 
 const Sell = () => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
-    const currentUser = useSelector(state => state.user.currentUser)
+    const [userCookies, setUserCookies] = useCookies(['user']);
+
 
     async function sellCard(){
         try {
             await axios.post(process.env.REACT_APP_RPROXY+"storeapi",{
                 cardId: selectedZozzemon.id,
-                userId: currentUser.id
+                userId: userCookies.id
             })
         } catch (error) {
             console.log(error)
