@@ -33,30 +33,27 @@ app.get('/', (req, res) => {
 
 class MyEmitter extends EventEmitter {}
 const myEmitter = new MyEmitter();
-myEmitter.on('general', () => {
-   console.log('general');
-   io.on('connection', (socket) => {
-      console.log('A user connected');
 
-      socket.on('disconnect', () => {
-         console.log('A user disconnected');
-      });
-
-      socket.on('chat message', (msg) => {
-         io.emit('chat message', msg);
-      });
-   });
-}
-);
-
-//à commenter quand le front react seras fonctionnel
-myEmitter.emit('general');
-
-myEmitter.on('u2u', (uidsrc, uiddest) => {
-   console.log('u2u args : ' + uidsrc + ' ' + uiddest);
+myEmitter.on('chat', (uidsrc, uiddest) => {
+   console.log('chat args : ' + uidsrc + ' ' + uiddest);
 
    io.on('connection', (socket) => {
       console.log('A user connected');
+
+      socket.on('getUsers', () => {
+         socket.emit('user', usersJSON);
+      });
+
+      socket.on('join', (room) => {
+         if (socket.rooms.has(room)) {
+            socket.join('room'+uiddest+'-'+uidsrc);
+         }else{
+            socket.join('room'+uidsrc+'-'+uiddest);
+         }
+         socket.on('disconnect', () => {
+            console.log('A user disconnected');
+         });
+      });
       if (socket.rooms.has('room'+uiddest+'-'+uidsrc)) {
          socket.join('room'+uiddest+'-'+uidsrc);
       }else{
@@ -74,7 +71,7 @@ myEmitter.on('u2u', (uidsrc, uiddest) => {
 });
 
 //à commenter quand le front react seras fonctionnel
-myEmitter.emit('u2u', 1, 3);
+myEmitter.emit('chat', 1, 3);
 
 // io.on('connection', (socket) => {
 //   console.log('A user connected');
