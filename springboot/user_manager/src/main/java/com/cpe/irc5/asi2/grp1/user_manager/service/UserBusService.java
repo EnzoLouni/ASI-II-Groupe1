@@ -13,7 +13,6 @@ import javax.jms.MessageNotWriteableException;
 import java.net.ConnectException;
 
 @Service
-@Component
 public class UserBusService extends AbstractBusService {
 
     @Value("${user.busName}")

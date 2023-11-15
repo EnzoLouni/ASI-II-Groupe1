@@ -1,6 +1,6 @@
 package com.cpe.irc5.asi2.grp1.user_manager.controller.publics;
 
-import com.cpe.irc5.asi2.grp1.user_manager.dto.UserDto;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDTO;
 import com.cpe.irc5.asi2.grp1.user_manager.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
@@ -26,17 +26,17 @@ public class UserPublicController {
 
     private final UserService userService;
     @GetMapping("/users/{id}")
-    public UserDto getUser(@PathVariable(name = "id") Integer id) {
+    public UserDTO getUser(@PathVariable(name = "id") Integer id) {
         return userService.getUser(id);
     }
 
     @GetMapping("/users")
-    public List<UserDto> getUsers() {
+    public List<UserDTO> getUsers() {
         return userService.getAllUsers();
     }
 
     @PutMapping("/users/{id}")
-    public void updateUser(@PathVariable(name = "id") Integer id, @RequestBody @Valid UserDto newUser) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+    public void updateUser(@PathVariable(name = "id") Integer id, @RequestBody @Valid UserDTO newUser) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         userService.updateUserRequest(id,newUser);
     }
 

@@ -1,0 +1,14 @@
+com\cpe\irc5\asi2\grp1\user_manager\service\NotificationBusService.class
+com\cpe\irc5\asi2\grp1\user_manager\mapper\UserMapperImpl.class
+com\cpe\irc5\asi2\grp1\user_manager\config\ActiveMqBus.class
+com\cpe\irc5\asi2\grp1\user_manager\service\UserBusService.class
+com\cpe\irc5\asi2\grp1\user_manager\service\UserService.class
+com\cpe\irc5\asi2\grp1\user_manager\model\User.class
+com\cpe\irc5\asi2\grp1\user_manager\UserManagerApplication.class
+com\cpe\irc5\asi2\grp1\user_manager\controller\publics\UserPublicController.class
+com\cpe\irc5\asi2\grp1\user_manager\repository\UserRepository.class
+com\cpe\irc5\asi2\grp1\user_manager\controller\privates\UserPrivateController.class
+com\cpe\irc5\asi2\grp1\user_manager\mapper\UserMapper.class
+com\cpe\irc5\asi2\grp1\user_manager\config\UserExceptionHandler.class
+com\cpe\irc5\asi2\grp1\user_manager\config\ActiveMqConfiguration.class
+com\cpe\irc5\asi2\grp1\user_manager\model\User$UserBuilder.class

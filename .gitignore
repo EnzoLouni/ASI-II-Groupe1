@@ -6,6 +6,7 @@ react/.pnp
 react/.pnp.js
 NodeJS/chat_manager/node_modules/*
 NodeJS/fight_manager/node_modules/*
+NodeJS/Package-lock.json
 
 # testing
 react/coverage
@@ -27,7 +28,8 @@ react/yarn-error.log*
 
 -------------------------------------------
 
-/target/
+commons/target/*
+springboot/*/target/*
 .metadata/
 .settings/
 .project

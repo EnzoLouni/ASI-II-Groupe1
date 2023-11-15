@@ -20,3 +20,5 @@ public class ActiveMqConfiguration implements ActiveMqConfigurationTemplate {
         return factory;
     }
 }
+
+
