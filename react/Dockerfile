@@ -4,7 +4,8 @@ WORKDIR /app
 
 EXPOSE 3000
 
-ENV REACT_APP_RPROXY=reverseproxy:80/
+ENV REACT_APP_RPROXY=http://localhost:80/ \
+    REACT_APP_IS_MOCK=false
 
 COPY ["package.json", "package-lock.json*", "./"]
 
