@@ -1,4 +1,4 @@
-package com.cpe.irc5.asi2.grp1.commons.errors;
+package com.cpe.irc5.asi2.grp1.commons.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

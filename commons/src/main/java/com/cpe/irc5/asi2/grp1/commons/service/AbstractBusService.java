@@ -1,7 +1,7 @@
 package com.cpe.irc5.asi2.grp1.commons.service;
 
+import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.command.ActiveMQTextMessage;
@@ -21,7 +21,7 @@ public abstract class AbstractBusService implements Bus {
 
     private JmsTemplate jmsTemplate;
     @Override
-    public void pushInQueue(ObjectNode content, String busName) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+    public void pushInQueue(BusMessage content, String busName) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("[{}] enqueued a message", busName);
         try {
             ActiveMQTextMessage message = toTextMessage(content);
