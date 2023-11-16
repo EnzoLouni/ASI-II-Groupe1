@@ -1,15 +1,16 @@
 package com.cpe.irc5.asi2.grp1.card_manager.config;
 
-import com.cpe.irc5.asi2.grp1.card_manager.model.CardModel;
-import com.cpe.irc5.asi2.grp1.card_manager.model.CardReference;
+import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
+import com.cpe.irc5.asi2.grp1.card_manager.mapper.CardMapper;
 import com.cpe.irc5.asi2.grp1.card_manager.service.CardModelService;
 import com.cpe.irc5.asi2.grp1.card_manager.service.CardReferenceService;
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
-import com.cpe.irc5.asi2.grp1.public_card.dtos.CardDTO;
+import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.command.ActiveMQTextMessage;
@@ -17,9 +18,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import javax.jms.JMSException;
-import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toObjectNode;
+import java.net.ConnectException;
+
+import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toBusMessage;
 
 
 @RequiredArgsConstructor
@@ -27,41 +29,47 @@ import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toO
 @Slf4j
 public class ActiveMqBus {
 
-    @Inject
-    private CardModelService CardService;
+    private final CardMapper cardMapper;
 
-    @Inject
-    private CardReferenceService cardRefService;
+    private final CardModelService cardModelService;
+    private final CardReferenceService cardReferenceService;
 
-
-    @Value("${user.busName}")
+    @Value("${card.busName}")
     private String busName;
 
-    @JmsListener(destination = "${user.busName}", containerFactory = "activeMqFactory")
-    public void processMessage(ActiveMQTextMessage content) {
-        log.info("[{}] dequeued message with Group ID: {}", busName, content.getGroupID());
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            ObjectNode objectNode = toObjectNode(content);
-            if(content.getGroupID().equals(GroupID.Cards.name())) {
+    private final ObjectMapper mapper = new ObjectMapper();
 
-                if(content.getType().equals(RequestType.PUT.name())) {
-                    CardDTO cardToUpdate = mapper.convertValue(objectNode, CardDTO.class);
-                    CardService.updateCard(cardToUpdate.getId(), cardToUpdate);
-                } else if(content.getType().equals(RequestType.DELETE.name())) {
-                    Integer userToDeleteId = mapper.convertValue(objectNode.get("id"), Integer.class);
-                    CardService.deleteCardModel(userToDeleteId);
-                } else if(content.getType().equals(RequestType.POST.name())) {
-                    try {
-                        CardModel cardToAdd = mapper.convertValue(objectNode, CardModel.class);
-                        CardService.addCard(cardToAdd);
-                    } catch (Exception e) {
-                        CardReference cardRefToAdd = mapper.convertValue(objectNode, CardReference.class);
-                        cardRefService.addCardRef(cardRefToAdd);
+    @JmsListener(destination = "${card.busName}", containerFactory = "activeMqFactory")
+    public void processMessage(ActiveMQTextMessage content) {
+        try {
+            BusMessage busMessage = toBusMessage(content);
+            log.info("[{}] dequeued message with Group ID: {}", busName, busMessage.getGroupID());
+            if(busMessage.getGroupID().equals(GroupID.Cards)) {
+                if(busMessage.getRequestType().equals(RequestType.PUT)) {
+                    if(busMessage.getOrigin().equals(RequestOrigin.OUT)) {
+                        CardDto cardToUpdate = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
+                        cardModelService.updateCard(cardToUpdate.getId(), cardToUpdate);
+                    }
+                    else if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
+                        CardDto cardToUpdate = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
+                        cardReferenceService.updateCardReference(cardToUpdate.getId(), cardMapper.toCardReference(cardToUpdate));
+                    }
+                }  else if(busMessage.getRequestType().equals(RequestType.POST)) {
+                    if(busMessage.getOrigin().equals(RequestOrigin.OUT)) {
+                        UserDto newUser = mapper.convertValue(busMessage.getDataBusObject(), UserDto.class);
+                        cardModelService.createCardsForUser(newUser.getId());
+                    }
+                    else if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
+                        CardDto cardToUpdate = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
+                        cardReferenceService.createCardReference(cardMapper.toCardReference(cardToUpdate));
                     }
                 }
             }
-        } catch (JMSException | JsonProcessingException e) {
+        } catch (JMSException e) {
+            throw new RuntimeException(e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        } catch (ConnectException e) {
             throw new RuntimeException(e);
         }
     }

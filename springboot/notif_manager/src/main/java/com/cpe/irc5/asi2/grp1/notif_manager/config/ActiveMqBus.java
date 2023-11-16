@@ -1,11 +1,11 @@
 package com.cpe.irc5.asi2.grp1.notif_manager.config;
 
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
-import com.cpe.irc5.asi2.grp1.notif_manager.publicnotif.model.NotificationResponse;
+import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
+import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
 import com.cpe.irc5.asi2.grp1.notif_manager.service.NotificationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.command.ActiveMQTextMessage;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.jms.JMSException;
 import java.util.UUID;
 
-import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toObjectNode;
+import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toBusMessage;
 
 @RequiredArgsConstructor
 @Component
@@ -29,12 +29,12 @@ public class ActiveMqBus {
 
     @JmsListener(destination = "${notification.busName}", containerFactory = "activeMqFactory")
     public void processMessage(ActiveMQTextMessage content) {
-        log.info("[{}] dequeued message with Group ID: {}", busName, content.getGroupID());
         ObjectMapper mapper = new ObjectMapper();
         try {
-            ObjectNode objectNode = toObjectNode(content);
-            if(content.getGroupID().equals(GroupID.Notifications.name())) {
-                notificationService.sendNotificationResponse(UUID.fromString(content.getUserID()), mapper.convertValue(objectNode, NotificationResponse.class));
+            BusMessage busMessage = toBusMessage(content);
+            log.info("[{}] dequeued message with Group ID: {}", busName, busMessage.getGroupID());
+            if(busMessage.getGroupID().equals(GroupID.Notifications)) {
+                notificationService.sendNotificationResponse(UUID.fromString(busMessage.getSocketId()), mapper.convertValue(busMessage.getDataBusObject(), NotificationResponse.class));
             }
         } catch (JMSException e) {
             throw new RuntimeException(e);

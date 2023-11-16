@@ -18,13 +18,6 @@
 	</properties>
 
 	<dependencies>
-
-		<dependency>
-			<groupId>com.cpe.irc5.asi2.grp1</groupId>
-			<artifactId>public-card</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>

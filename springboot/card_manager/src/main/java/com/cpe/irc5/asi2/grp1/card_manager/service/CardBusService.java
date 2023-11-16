@@ -1,5 +1,6 @@
 package com.cpe.irc5.asi2.grp1.card_manager.service;
 
+import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
 import com.cpe.irc5.asi2.grp1.commons.service.AbstractBusService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -13,12 +14,12 @@ import java.net.ConnectException;
 @Service
 public class CardBusService extends AbstractBusService {
 
-    @Value("${user.busName}")
+    @Value("${card.busName}")
     private String busName;
     public CardBusService(JmsTemplate jmsTemplate) {
         super(jmsTemplate);
     }
-    public void pushInQueue(ObjectNode content) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+    public void pushInQueue(BusMessage content) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         this.pushInQueue(content, busName);
     }
 }

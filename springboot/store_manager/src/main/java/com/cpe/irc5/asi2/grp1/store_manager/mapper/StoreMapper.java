@@ -2,8 +2,8 @@ package com.cpe.irc5.asi2.grp1.store_manager.mapper;
 
 
 import com.cpe.irc5.asi2.grp1.store_manager.model.StoreTransaction;
-import com.cpe.irc5.asi2.grp1.store_manager.publicstore.dto.StoreTransactionDto;
-import com.cpe.irc5.asi2.grp1.store_manager.publicstore.enums.StoreAction;
+import com.cpe.irc5.asi2.grp1.store_manager.dto.StoreTransactionDto;
+import com.cpe.irc5.asi2.grp1.store_manager.enums.StoreAction;
 import com.cpe.irc5.asi2.grp1.user_manager.client.UserClient;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

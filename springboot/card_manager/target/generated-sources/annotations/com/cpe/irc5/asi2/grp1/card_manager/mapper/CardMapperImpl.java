@@ -1,177 +1,83 @@
 package com.cpe.irc5.asi2.grp1.card_manager.mapper;
 
+import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
+import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto.CardDtoBuilder;
 import com.cpe.irc5.asi2.grp1.card_manager.model.CardModel;
+import com.cpe.irc5.asi2.grp1.card_manager.model.CardModel.CardModelBuilder;
 import com.cpe.irc5.asi2.grp1.card_manager.model.CardReference;
-import com.cpe.irc5.asi2.grp1.public_card.dtos.CardDTO;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-11-08T20:19:32+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 19.0.1 (Oracle Corporation)"
+    date = "2023-11-16T00:31:46+0100",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 18 (Oracle Corporation)"
 )
 @Component
-public class CardMapperImpl implements CardMapper {
+public class CardMapperImpl extends CardMapper {
 
     @Override
-    public CardDTO fromCardModelToCardDTO(CardModel card) {
-        if ( card == null ) {
-            return null;
-        }
-
-        CardDTO cardDTO = new CardDTO();
-
-        cardDTO.setName( card.getName() );
-        cardDTO.setDescription( card.getDescription() );
-        cardDTO.setFamily( card.getFamily() );
-        cardDTO.setAffinity( card.getAffinity() );
-        cardDTO.setImgUrl( card.getImgUrl() );
-        cardDTO.setSmallImgUrl( card.getSmallImgUrl() );
-        cardDTO.setId( card.getId() );
-        cardDTO.setEnergy( card.getEnergy() );
-        cardDTO.setHp( card.getHp() );
-        cardDTO.setDefence( card.getDefence() );
-        cardDTO.setAttack( card.getAttack() );
-        cardDTO.setPrice( card.getPrice() );
-
-        return cardDTO;
-    }
-
-    @Override
-    public CardModel fromCardDtoToCardModel(CardDTO cardDTO) {
-        if ( cardDTO == null ) {
-            return null;
-        }
-
-        CardModel cardModel = new CardModel();
-
-        cardModel.setName( cardDTO.getName() );
-        cardModel.setDescription( cardDTO.getDescription() );
-        cardModel.setFamily( cardDTO.getFamily() );
-        cardModel.setAffinity( cardDTO.getAffinity() );
-        cardModel.setImgUrl( cardDTO.getImgUrl() );
-        cardModel.setSmallImgUrl( cardDTO.getSmallImgUrl() );
-        cardModel.setEnergy( cardDTO.getEnergy() );
-        cardModel.setHp( cardDTO.getHp() );
-        cardModel.setDefence( cardDTO.getDefence() );
-        cardModel.setAttack( cardDTO.getAttack() );
-        cardModel.setPrice( cardDTO.getPrice() );
-        cardModel.setId( cardDTO.getId() );
-
-        return cardModel;
-    }
-
-    @Override
-    public List<CardDTO> fromCardModelToCardDTO(List<CardModel> cardModel) {
+    public CardDto toCardDto(CardModel cardModel) {
         if ( cardModel == null ) {
             return null;
         }
 
-        List<CardDTO> list = new ArrayList<CardDTO>( cardModel.size() );
-        for ( CardModel cardModel1 : cardModel ) {
-            list.add( fromCardModelToCardDTO( cardModel1 ) );
-        }
+        CardDtoBuilder cardDto = CardDto.builder();
 
-        return list;
+        cardDto.id( cardModel.getId() );
+        cardDto.energy( cardModel.getEnergy() );
+        cardDto.hp( cardModel.getHp() );
+        cardDto.defense( cardModel.getDefense() );
+        cardDto.attack( cardModel.getAttack() );
+        cardDto.price( cardModel.getPrice() );
+
+        cardDto.name( cardReferenceService.getCardReference(cardModel.getCardReferenceId()).getName() );
+        cardDto.description( cardReferenceService.getCardReference(cardModel.getCardReferenceId()).getDescription() );
+        cardDto.family( cardReferenceService.getCardReference(cardModel.getCardReferenceId()).getFamily() );
+        cardDto.affinity( cardReferenceService.getCardReference(cardModel.getCardReferenceId()).getAffinity() );
+        cardDto.imgUrl( cardReferenceService.getCardReference(cardModel.getCardReferenceId()).getImgUrl() );
+        cardDto.smallImgUrl( cardReferenceService.getCardReference(cardModel.getCardReferenceId()).getSmallImgUrl() );
+        cardDto.userDto( cardModel.getUserId() != null ? userClient.getUser(cardModel.getUserId()) : null );
+
+        return cardDto.build();
     }
 
     @Override
-    public List<CardModel> fromCardDtoToCardModel(List<CardDTO> cardDTO) {
-        if ( cardDTO == null ) {
+    public CardModel toCardModel(CardDto cardDto) {
+        if ( cardDto == null ) {
             return null;
         }
 
-        List<CardModel> list = new ArrayList<CardModel>( cardDTO.size() );
-        for ( CardDTO cardDTO1 : cardDTO ) {
-            list.add( fromCardDtoToCardModel( cardDTO1 ) );
-        }
+        CardModelBuilder cardModel = CardModel.builder();
 
-        return list;
+        cardModel.id( cardDto.getId() );
+        cardModel.energy( cardDto.getEnergy() );
+        cardModel.hp( cardDto.getHp() );
+        cardModel.defense( cardDto.getDefense() );
+        cardModel.attack( cardDto.getAttack() );
+        cardModel.price( cardDto.getPrice() );
+
+        cardModel.userId( cardDto.getUserDto().getId() );
+        cardModel.cardReferenceId( cardReferenceService.getCardReferenceIdByName(cardDto.getName()) );
+
+        return cardModel.build();
     }
 
     @Override
-    public CardDTO fromCardReferenceToCardDTO(CardReference cardRef) {
-        if ( cardRef == null ) {
-            return null;
-        }
-
-        CardDTO cardDTO = new CardDTO();
-
-        cardDTO.setName( cardRef.getName() );
-        cardDTO.setDescription( cardRef.getDescription() );
-        cardDTO.setFamily( cardRef.getFamily() );
-        cardDTO.setAffinity( cardRef.getAffinity() );
-        cardDTO.setImgUrl( cardRef.getImgUrl() );
-        cardDTO.setSmallImgUrl( cardRef.getSmallImgUrl() );
-        cardDTO.setId( cardRef.getId() );
-
-        return cardDTO;
-    }
-
-    @Override
-    public CardReference fromCardDtoToCardReference(CardReference cardReference) {
-        if ( cardReference == null ) {
-            return null;
-        }
-
-        CardReference cardReference1 = new CardReference();
-
-        cardReference1.setName( cardReference.getName() );
-        cardReference1.setDescription( cardReference.getDescription() );
-        cardReference1.setFamily( cardReference.getFamily() );
-        cardReference1.setAffinity( cardReference.getAffinity() );
-        cardReference1.setImgUrl( cardReference.getImgUrl() );
-        cardReference1.setSmallImgUrl( cardReference.getSmallImgUrl() );
-        cardReference1.setId( cardReference.getId() );
-
-        return cardReference1;
-    }
-
-    @Override
-    public List<CardDTO> fromCardReferenceToCardDTO(List<CardReference> cardRef) {
-        if ( cardRef == null ) {
-            return null;
-        }
-
-        List<CardDTO> list = new ArrayList<CardDTO>( cardRef.size() );
-        for ( CardReference cardReference : cardRef ) {
-            list.add( fromCardReferenceToCardDTO( cardReference ) );
-        }
-
-        return list;
-    }
-
-    @Override
-    public List<CardReference> fromCardDtoToCardReference(List<CardDTO> cardDTO) {
-        if ( cardDTO == null ) {
-            return null;
-        }
-
-        List<CardReference> list = new ArrayList<CardReference>( cardDTO.size() );
-        for ( CardDTO cardDTO1 : cardDTO ) {
-            list.add( cardDTOToCardReference( cardDTO1 ) );
-        }
-
-        return list;
-    }
-
-    protected CardReference cardDTOToCardReference(CardDTO cardDTO) {
-        if ( cardDTO == null ) {
+    public CardReference toCardReference(CardDto cardDto) {
+        if ( cardDto == null ) {
             return null;
         }
 
         CardReference cardReference = new CardReference();
 
-        cardReference.setName( cardDTO.getName() );
-        cardReference.setDescription( cardDTO.getDescription() );
-        cardReference.setFamily( cardDTO.getFamily() );
-        cardReference.setAffinity( cardDTO.getAffinity() );
-        cardReference.setImgUrl( cardDTO.getImgUrl() );
-        cardReference.setSmallImgUrl( cardDTO.getSmallImgUrl() );
-        cardReference.setId( cardDTO.getId() );
+        cardReference.setId( cardDto.getId() );
+        cardReference.setName( cardDto.getName() );
+        cardReference.setDescription( cardDto.getDescription() );
+        cardReference.setFamily( cardDto.getFamily() );
+        cardReference.setAffinity( cardDto.getAffinity() );
+        cardReference.setImgUrl( cardDto.getImgUrl() );
+        cardReference.setSmallImgUrl( cardDto.getSmallImgUrl() );
 
         return cardReference;
     }

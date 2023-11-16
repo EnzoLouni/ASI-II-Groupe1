@@ -1,14 +1,11 @@
 package com.cpe.irc5.asi2.grp1.notif_manager.service;
 
-import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
-import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
-import com.cpe.irc5.asi2.grp1.notif_manager.publicnotif.model.NotificationResponse;
+import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.After;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

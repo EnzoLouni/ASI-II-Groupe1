@@ -1,13 +1,14 @@
 package com.cpe.irc5.asi2.grp1.store_manager.config;
 
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
-import com.cpe.irc5.asi2.grp1.store_manager.publicstore.dto.StoreOrder;
-import com.cpe.irc5.asi2.grp1.store_manager.publicstore.enums.StoreAction;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
+import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
+import com.cpe.irc5.asi2.grp1.store_manager.dto.StoreOrder;
+import com.cpe.irc5.asi2.grp1.store_manager.enums.StoreAction;
 import com.cpe.irc5.asi2.grp1.store_manager.service.StoreService;
-import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.command.ActiveMQTextMessage;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 
-import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toObjectNode;
+import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toBusMessage;
 
 @RequiredArgsConstructor
 @Component
@@ -33,15 +34,25 @@ public class ActiveMqBus {
         log.info("[{}] dequeued message with Group ID: {}", busName, content.getGroupID());
         ObjectMapper mapper = new ObjectMapper();
         try {
-            ObjectNode objectNode = toObjectNode(content);
-            if(content.getGroupID().equals(GroupID.Stores.name())) {
-                if(content.getType().equals(StoreAction.SELL.name())) {
-                    StoreOrder sellOrder = mapper.convertValue(objectNode, StoreOrder.class);
-                    storeService.sell(sellOrder);
+            BusMessage busMessage = toBusMessage(content);
+            if(busMessage.getGroupID().equals(GroupID.Stores)) {
+                if(busMessage.getRequestType().equals(RequestType.SELL)) {
+                    if(busMessage.getRequestType().equals(RequestOrigin.IN)) {
+                        StoreOrder sellOrder = mapper.convertValue(busMessage.getDataBusObject(), StoreOrder.class);
+                        storeService.sell(sellOrder);
+                    }
+                    else if(busMessage.getRequestType().equals(RequestOrigin.OUT)){
+
+                    }
                 }
-                else if(content.getType().equals(StoreAction.BUY.name())) {
-                    StoreOrder buyOrder = mapper.convertValue(objectNode, StoreOrder.class);
-                    storeService.buy(buyOrder);
+                else if(busMessage.getRequestType().equals(RequestType.BUY)) {
+                    if(busMessage.getRequestType().equals(RequestOrigin.IN)) {
+                        StoreOrder buyOrder = mapper.convertValue(busMessage.getDataBusObject(), StoreOrder.class);
+                        storeService.buy(buyOrder);
+                    }
+                    else if(busMessage.getRequestType().equals(RequestOrigin.OUT)){
+
+                    }
                 }
             }
         } catch (JMSException e) {

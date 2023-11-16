@@ -1,16 +1,21 @@
 package com.cpe.irc5.asi2.grp1.store_manager.service;
 
+import com.cpe.irc5.asi2.grp1.card_manager.client.CardClient;
+import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
-import com.cpe.irc5.asi2.grp1.notif_manager.publicnotif.bus.NotificationBusService;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
+import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
+import com.cpe.irc5.asi2.grp1.notif_manager.bus.NotificationBusService;
+import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
+import com.cpe.irc5.asi2.grp1.store_manager.bus.StoreBusService;
+import com.cpe.irc5.asi2.grp1.store_manager.dto.StoreOrder;
+import com.cpe.irc5.asi2.grp1.store_manager.dto.StoreTransactionDto;
 import com.cpe.irc5.asi2.grp1.store_manager.mapper.StoreMapper;
-import com.cpe.irc5.asi2.grp1.store_manager.publicstore.dto.StoreOrder;
-import com.cpe.irc5.asi2.grp1.store_manager.publicstore.dto.StoreTransactionDto;
-import com.cpe.irc5.asi2.grp1.store_manager.publicstore.enums.StoreAction;
 import com.cpe.irc5.asi2.grp1.store_manager.repository.StoreRepository;
 import com.cpe.irc5.asi2.grp1.user_manager.client.UserClient;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,8 +25,7 @@ import java.net.ConnectException;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.GROUP;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.TYPE;
+import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.SUCCESS;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
@@ -31,7 +35,8 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
     private final StoreMapper storeMapper;
-    //private final CardClient cardClient;
+
+    private final CardClient cardClient;
     private final UserClient userClient;
 
     private final StoreBusService storeBusService;
@@ -46,36 +51,51 @@ public class StoreService {
 
     public void sellRequest(StoreOrder order) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("Sell Request received");
-        ObjectNode objectNode = (ObjectNode) mapper.readTree(mapper.writeValueAsString(order));
-        objectNode.put(GROUP, GroupID.Stores.name());
-        objectNode.put(TYPE, StoreAction.SELL.name());
-        storeBusService.pushInQueue(objectNode);
+        BusMessage busMessage = BusMessage.builder()
+                .groupID(GroupID.Stores)
+                .origin(RequestOrigin.IN)
+                .dataBusObject(order)
+                .classOfDataBusObject(order.getClass())
+                .build();
+        storeBusService.pushInQueue(busMessage);
     }
 
     public void sell(StoreOrder order) {
-        /*CardDto cardSold = cardClient.getCard(order.getCardId());
+        CardDto cardSold = cardClient.getCard(order.getCardId());
         UserDto seller = userClient.getUser(order.getUserId());
-        if(cardSold.getUserId() == order.getUserId() && seller.getCardDtos().contains(cardSold)) {
-            cardSold.setUserId(null);
+        //if(cardSold.getUserDto().getId() == order.getUserId() && seller.getCardDtos().contains(cardSold)) {
+            cardSold.setUserDto(null);
             cardClient.updateCard(cardSold.getId(), cardSold);
             seller.setWallet(seller.getWallet() + cardSold.getPrice());
-            userClient.updateUser(seller.getId(), seller);
-            StoreTransactionDto newStoreTransactionDto = StoreTransactionDto.builder()
+            /*StoreTransactionDto newStoreTransactionDto = StoreTransactionDto.builder()
                     .cardDto(cardSold)
                     .userDto(userClient.getUser(order.getUserId()))
                     .action(StoreAction.SELL)
                     .timestamp(new Date())
                     .build();
-            storeRepository.save(storeMapper.toStoreTransaction(newStoreTransactionDto));
-        }*/
+            storeRepository.save(storeMapper.toStoreTransaction(newStoreTransactionDto));*/
+        //}
+    }
+
+    public void callBackSell(CardDto soldCard) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+        log.info("CallBack For Store Sell Called");
+        NotificationResponse response = new NotificationResponse();
+        UserDto userDto = soldCard.getUserDto();
+        if(userDto.getLogin() == null) {
+            response.setMessage(SUCCESS);
+            response.setOperationsWereMade(true);
+        }
     }
 
     public void buyRequest(StoreOrder order) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("Buy Request received");
-        ObjectNode objectNode = (ObjectNode) mapper.readTree(mapper.writeValueAsString(order));
-        objectNode.put(GROUP, GroupID.Stores.name());
-        objectNode.put(TYPE, StoreAction.SELL.name());
-        storeBusService.pushInQueue(objectNode);
+        BusMessage busMessage = BusMessage.builder()
+                .groupID(GroupID.Stores)
+                .origin(RequestOrigin.IN)
+                .dataBusObject(order)
+                .classOfDataBusObject(order.getClass())
+                .build();
+        storeBusService.pushInQueue(busMessage);
     }
 
     public void buy(StoreOrder order) {

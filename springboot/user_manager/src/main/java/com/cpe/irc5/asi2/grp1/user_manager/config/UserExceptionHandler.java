@@ -1,9 +1,10 @@
 package com.cpe.irc5.asi2.grp1.user_manager.config;
 
-import com.cpe.irc5.asi2.grp1.commons.errors.ErrorResponse;
-import com.cpe.irc5.asi2.grp1.commons.errors.handler.GlobalExceptionHandler;
+import com.cpe.irc5.asi2.grp1.commons.exception.ErrorResponse;
+import com.cpe.irc5.asi2.grp1.commons.exception.handler.GlobalExceptionHandler;
 import com.fasterxml.jackson.core.JsonParseException;
 import feign.RetryableException;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,7 @@ import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.USER_FORMAT;
 
 @ControllerAdvice("com.cpe.irc5.asi2.grp1.user_manager")
 @Slf4j
-@Component
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class UserExceptionHandler extends GlobalExceptionHandler {
     @ExceptionHandler(value = JsonParseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -33,5 +33,10 @@ public class UserExceptionHandler extends GlobalExceptionHandler {
     @Override
     public ErrorResponse handleNoServiceException(RetryableException ex) {
         return null;
+    }
+
+    @Override
+    public void handleError(Throwable t) {
+
     }
 }

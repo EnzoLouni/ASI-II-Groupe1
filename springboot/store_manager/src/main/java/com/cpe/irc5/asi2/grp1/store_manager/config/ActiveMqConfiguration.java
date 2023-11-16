@@ -17,6 +17,7 @@ public class ActiveMqConfiguration implements ActiveMqConfigurationTemplate {
                 new DefaultJmsListenerContainerFactory();
         configurer.configure(factory, new ActiveMQConnectionFactory());
         factory.setMessageConverter(new MessagingMessageConverter());
+        factory.setErrorHandler(new StoreExceptionHandler());
         return factory;
     }
 }

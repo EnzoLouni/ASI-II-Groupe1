@@ -34,3 +34,14 @@ react/yarn-error.log*
 *.iml
 .idea
 
+springboot/auth_manager/target
+springboot/auth_manager/src/test
+springboot/notif_manager/target
+springboot/notif_manager/src/test
+springboot/card_manager/target
+springboot/card_manager/src/test
+springboot/user_manager/target
+springboot/user_manager/src/test
+springboot/store_manager/target
+springboot/store_manager/src/test
+

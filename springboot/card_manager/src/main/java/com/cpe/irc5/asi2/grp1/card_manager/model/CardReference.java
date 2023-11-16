@@ -1,41 +1,49 @@
 package com.cpe.irc5.asi2.grp1.card_manager.model;
 
 
-import com.cpe.irc5.asi2.grp1.public_card.dtos.CardBasics;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.io.Serializable;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
+@Data
 @Entity
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class CardReference extends CardBasics implements Serializable {
+@Getter
+@Setter
+@NoArgsConstructor
+@Table(name = "CARD_REFERENCE", schema = "public")
+public class CardReference extends CardBasics {
 
-    private static final long serialVersionUID = -7059808842444736266L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name", unique = true)
+    private String name;
+    private String description;
+    @NotNull
+    private String family;
+    @NotNull
+    private String affinity;
+    private String imgUrl;
+    private String smallImgUrl;
 
-    public CardReference() {
+    public CardReference( CardBasics cBasics) {
+        super(cBasics);
     }
 
-    public CardReference(CardBasics c) {
-        super(c);
+    public CardReference(Integer id, String name, String description, String family, String affinity, String imgUrl, String smallImgUrl) {
+        super(name, description, family, affinity, imgUrl, smallImgUrl);
+        this.id=id;
     }
-
-    public CardReference(String name, String description, String family, String affinity,String imgUrl,String smallImgUrl) {
-        super(name, description, family,affinity,imgUrl,smallImgUrl);
-    }
-
-    public Integer getId() {
-        return id;
-    }
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
 }

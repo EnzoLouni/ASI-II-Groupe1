@@ -1,153 +1,179 @@
 package com.cpe.irc5.asi2.grp1.card_manager.service;
 
+import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
 import com.cpe.irc5.asi2.grp1.card_manager.mapper.CardMapper;
 import com.cpe.irc5.asi2.grp1.card_manager.model.CardModel;
 import com.cpe.irc5.asi2.grp1.card_manager.model.CardReference;
 import com.cpe.irc5.asi2.grp1.card_manager.repository.CardModelRepository;
+import com.cpe.irc5.asi2.grp1.card_manager.repository.CardReferenceRepository;
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
-import com.cpe.irc5.asi2.grp1.public_card.dtos.CardDTO;
+import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
+import com.cpe.irc5.asi2.grp1.notif_manager.bus.NotificationBusService;
+import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
+import com.cpe.irc5.asi2.grp1.user_manager.bus.UserBusService;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.CannotCreateTransactionException;
 
-import javax.inject.Inject;
 import javax.jms.MessageNotWriteableException;
 import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
+import java.util.stream.StreamSupport;
 
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.*;
+import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.CARD_NOT_FOUND;
+import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.RESOURCE_NOT_FOUND;
+import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.SUCCESS;
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Slf4j
 @Service
 public class CardModelService {
 
-    @Inject
-    private CardModelRepository cardRepository;
+    private final CardModelRepository cardModelRepository;
+    private final CardReferenceRepository cardReferenceRepository;
 
-    @Inject
-    private CardReferenceService cardRefService;
+    private final CardMapper cardMapper;
 
-    @Inject
-    private CardMapper cardMapper;
+    private final CardReferenceService cardReferenceService;
+    private final CardBusService cardBusService;
+    private final UserBusService userBusService;
+    private final NotificationBusService notificationBusService;
 
-    @Inject
-    private CardBusService cardBusService;
-
-    // private final NotificationBusService notificationBusService;
-
-    private static final ObjectMapper mapper = new ObjectMapper();
-    private Random rand;
-
-    /* public CardModelService(CardModelRepository cardRepository, CardReferenceService cardRefService, CardMapper cardMapper, CardBusService cardBusService) {
-        this.cardMapper = cardMapper;
-        this.cardBusService = cardBusService;
-        this.rand=new Random();
-        // Dependencies injection by constructor
-        this.cardRepository=cardRepository;
-        this.cardRefService=cardRefService;
-    } */
-
-    public List<CardModel> getAllCardModel() {
-        List<CardModel> cardList = new ArrayList<>();
-        cardRepository.findAll().forEach(cardList::add);
-        return cardList;
+    public CardDto getCard(Integer cardId) {
+        log.info("Getting Card with ID {}", cardId);
+        return cardModelRepository.findById(cardId).map(cardMapper::toCardDto).orElse(null);
     }
 
-    public void addCardRequest(CardDTO cardDTO) throws JsonProcessingException, MessageNotWriteableException, ConnectException {
-
-        log.info("Create Request received");
-        ObjectNode objectNode = (ObjectNode) mapper.readTree(mapper.writeValueAsString(cardDTO));
-        objectNode.put(GROUP, GroupID.Cards.name());
-        objectNode.put(TYPE, RequestType.POST.name());
-        cardBusService.pushInQueue(objectNode);
+    public List<CardDto> getCards() {
+        log.info("Getting all Cards");
+        return StreamSupport.stream(cardModelRepository.findAll().spliterator(),false).map(cardMapper::toCardDto).collect(toList());
     }
 
-    public void addCard(CardModel cardAdded) throws CannotCreateTransactionException {
+    public List<CardDto> getCardsByUser(Integer userId) {
+        log.info("Getting all Cards By User");
+        return StreamSupport.stream(cardModelRepository.findAllByUserId(userId).spliterator(),false).map(cardMapper::toCardDto).collect(toList());
+    }
 
-        log.info("Update User with ID: {}", cardAdded.getId());
+    public List<CardDto> getCardsToSell() {
+        log.info("Getting all Cards to Sell");
+        return StreamSupport.stream(cardModelRepository.findCardModelByUserIdIsNull().spliterator(),false).map(cardMapper::toCardDto).collect(toList());
+    }
+
+    public void createCardRequest(UserDto newUser) throws JsonProcessingException, MessageNotWriteableException, ConnectException {
+        log.info("Create Card Request received");
+        BusMessage busMessage = BusMessage.builder()
+                .groupID(GroupID.Cards)
+                .requestType(RequestType.POST)
+                .origin(RequestOrigin.OUT)
+                .dataBusObject(newUser)
+                .classOfDataBusObject(newUser.getClass())
+                .build();
+        cardBusService.pushInQueue(busMessage);
+    }
+
+    public void createCardsForUser(Integer userId) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+        log.info("Creating 5 random cards for User with ID {}", userId);
+        List<CardModel> cardsCreated = new ArrayList<>();
+        CardDto witnessCard = new CardDto();
+        witnessCard.setUserDto(UserDto.builder()
+                .id(userId)
+                .build());
         try {
-            cardRepository.save(cardAdded);
-        } catch(EmptyResultDataAccessException e) {
-            log.error(USER_NOT_FOUND, cardAdded.getId());
+            for(CardReference cardReference: cardReferenceService.getRandomCardReferences()) {
+                cardsCreated.add(createCardWithReference(cardReference, userId));
+            }
+            witnessCard = cardsCreated.stream().map(cardMapper::toCardDto).collect(toList()).get(0);
+        } catch (Exception e) {
+            log.error("Creation of cards failed");
+            for(CardModel cardCreated : cardsCreated) {
+                cardModelRepository.deleteById(cardCreated.getId());
+            }
+        } finally {
+            BusMessage busMessage = BusMessage.builder()
+                    .groupID(GroupID.Users)
+                    .requestType(RequestType.CALLBACK)
+                    .origin(RequestOrigin.OUT)
+                    .dataBusObject(witnessCard)
+                    .classOfDataBusObject(witnessCard.getClass())
+                    .build();
+            userBusService.pushInQueue(busMessage);
         }
     }
 
-    public void updateCardRequest(Integer id, CardDTO cardUpdated) throws JsonProcessingException, MessageNotWriteableException, ConnectException {
-
-        log.info("Update Request received");
-        cardUpdated.setUserId(id);
-        ObjectNode objectNode = (ObjectNode) mapper.readTree(mapper.writeValueAsString(cardUpdated));
-        objectNode.put(GROUP, GroupID.Cards.name());
-        objectNode.put(TYPE, RequestType.PUT.name());
-        cardBusService.pushInQueue(objectNode);
+    private CardModel createCardWithReference(CardReference cardReference, Integer userId) throws EmptyResultDataAccessException {
+        Random random = new Random();
+        CardModel newCard = CardModel.builder()
+                .hp(random.nextFloat()*100)
+                .attack(random.nextFloat()*100)
+                .defense(random.nextFloat()*100)
+                .energy(random.nextFloat()*100)
+                .price(random.nextFloat()*1000)
+                .userId(userId)
+                .cardReferenceId(cardReference.getId())
+                .build();
+        return cardModelRepository.save(newCard);
     }
 
-    public void updateCard(Integer id, CardDTO cardUpdated) throws CannotCreateTransactionException {
+    public void updateCardRequest(Integer id, CardDto cardToUpdate) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+        log.info("Updating Card Request received");
+        cardToUpdate.setId(id);
+        BusMessage busMessage = BusMessage.builder()
+                .groupID(GroupID.Cards)
+                .requestType(RequestType.PUT)
+                .origin(RequestOrigin.OUT)
+                .dataBusObject(cardToUpdate)
+                .classOfDataBusObject(cardToUpdate.getClass())
+                .build();
+        cardBusService.pushInQueue(busMessage);
+    }
 
-        log.info("Update User with ID: {}", cardUpdated.getId());
+    public void updateCard(Integer cardId, CardDto cardToUpdate) throws CannotCreateTransactionException, MessageNotWriteableException, JsonProcessingException, ConnectException {
+        log.info("Update Card with ID: {}", cardToUpdate.getId());
+        NotificationResponse response = new NotificationResponse();
         try {
-            cardRepository.findByUser(id);
-            cardUpdated.setId(id);
-            cardRepository.save(cardMapper.fromCardDtoToCardModel(cardUpdated));
+            cardModelRepository.findById(cardId);
+            cardToUpdate.setId(cardId);
+            cardModelRepository.save(cardMapper.toCardModel(cardToUpdate));
+            response.setMessage(SUCCESS);
+            response.setOperationsWereMade(true);
         } catch(EmptyResultDataAccessException e) {
-            log.error(USER_NOT_FOUND, id);
+            log.error(CARD_NOT_FOUND, cardToUpdate.getName());
+            response.setMessage(RESOURCE_NOT_FOUND);
+            response.setErrors(Arrays.asList(String.format(CARD_NOT_FOUND, cardToUpdate.getName())));
+            response.setOperationsWereMade(false);
+        } finally {
+            BusMessage busMessage = BusMessage.builder()
+                    .groupID(GroupID.Notifications)
+                    .socketId(UUID.randomUUID().toString())
+                    .dataBusObject(response)
+                    .classOfDataBusObject(response.getClass())
+                    .build();
+            notificationBusService.pushInQueue(busMessage);
         }
     }
 
-
-    public Optional<CardModel> getCard(Integer id) {
-        return cardRepository.findById(id);
-    }
-
-    public void deleteCardModelRequest(Integer id) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
-
-        log.info("Delete Request received");
-        ObjectNode objectNode = mapper.createObjectNode();
-        objectNode.put(GROUP, GroupID.Cards.name());
-        objectNode.put(TYPE, RequestType.DELETE.name());
-        objectNode.put("id", id);
-        this.cardBusService.pushInQueue(objectNode);
-    }
-
-    public void deleteCardModel(Integer id) throws CannotCreateTransactionException {
-
-        log.info("Delete User with ID: {}", id);
-        try {
-            cardRepository.deleteById(id);
-        } catch(EmptyResultDataAccessException e) {
-            log.error(USER_NOT_FOUND, id);
+    @EventListener(ApplicationReadyEvent.class)
+    public void initializeMarket() {
+        List<CardReference> newCardReferences = StreamSupport.stream(cardReferenceRepository.findAll().spliterator(),false).collect(toList());
+        List<CardModel> cardsAlreadyOnMarket = StreamSupport.stream(cardModelRepository.findAll().spliterator(),false).collect(toList());
+        if(cardsAlreadyOnMarket.size() == 0) {
+            log.info("Initializing Market");
+            for(CardReference cardReference: newCardReferences) {
+                createCardWithReference(cardReference,null);
+            }
         }
     }
-
-    public List<CardModel> getRandCard(int nbr) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
-        List<CardModel> cardList=new ArrayList<>();
-        for(int i=0;i<nbr;i++) {
-            CardReference currentCardRef=cardRefService.getRandCardRef();
-            CardModel currentCard=new CardModel(currentCardRef);
-            currentCard.setAttack(rand.nextFloat()*100);
-            currentCard.setDefence(rand.nextFloat()*100);
-            currentCard.setEnergy(100);
-            currentCard.setHp(rand.nextFloat()*100);
-            currentCard.setPrice(currentCard.computePrice());
-            //save new card before sending for user creation
-            addCardRequest(cardMapper.fromCardModelToCardDTO(currentCard));
-            cardList.add(currentCard);
-        }
-        return cardList;
-    }
-
-    public List<CardModel> getAllCardToSell(){
-        return this.cardRepository.findByUser(null);
-    }
-
 }
