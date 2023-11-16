@@ -19,7 +19,7 @@ const Register = () => {
         if(passwordRef.current.value === repasswordRef.current.value)
         {
             try {
-                const registerPr = await axios.post(process.env.REACT_APP_RPROXY+"userapi",{
+                const registerPr = await axios.post(process.env.REACT_APP_RPROXY+"userapi/public/user",{
                     login: loginRef.current.value,
                     firstName: firstNameRef.current.value,
                     lastName: lastNameRef.current.value,

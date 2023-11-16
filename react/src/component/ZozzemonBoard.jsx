@@ -5,16 +5,29 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedZozzemon, setZozzemonList } from "../core/reducers/zozzemonsSlice";
 import axios from "../core/axiosMockInstance";
 
-const ZozzemonBoard = () => {
+const ZozzemonBoard = ({variant}) => {
     const zozzemonList = useSelector(state => state.zozzemon.zozzemonList)
-
     const dispatch = useDispatch();
+    let zozzemonEndPoint
+    switch (variant) {
+        case "sell":
+            zozzemonEndPoint = "cardapi/public/cards_to_sell"
+            break;
+    
+        case "buy":
+            zozzemonEndPoint = "cardapi/public/cards/1/user"
+            break;
+
+        default:
+            zozzemonEndPoint = "cardapi/public/cards"
+            break;
+    }
 
     useEffect(()=>{
         dispatch(setSelectedZozzemon(null))
         async function fetchZozzemons(){
             try {
-                const zozzemonListPr = await axios.get(process.env.REACT_APP_RPROXY+"cardapi")
+                const zozzemonListPr = await axios.get(process.env.REACT_APP_RPROXY+zozzemonEndPoint)
                 dispatch(setZozzemonList(zozzemonListPr.data));
             } catch (error) {
                 console.log(error)

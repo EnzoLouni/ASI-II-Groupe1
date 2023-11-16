@@ -1,83 +1,13 @@
 import { axiosMockAdapterInstance } from "./axiosMockInstance";
 
-axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"userapi").reply(200)
-axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"authapi").reply(200, {
-    id:1,
+axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"userapi/public/user").reply(200)
+axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"authapi/auth").reply(200, {
+    id:10,
     login:"ZOZZER",
     wallet:2022
 })
-axiosMockAdapterInstance.onGet(process.env.REACT_APP_RPROXY+"cardapi").reply(200,
+axiosMockAdapterInstance.onGet(process.env.REACT_APP_RPROXY+"cardapi/public/cards_to_sell").reply(200,
     [
-        {
-          "id":1,
-          "name": "Zozz enragé",
-          "description": "Cette carte représente un Zozzer enragé.",
-          "family": "Zozzer",
-          "affinity": "Terre",
-          "imgUrl": "img/zozz_enrage.png",
-          "smallImgUrl": "img/small/zozz_aenrage.png",
-          "energy": 1.5,
-          "hp": 80,
-          "defense": 70,
-          "attack": 50,
-          "price": 2.99
-        },
-        {
-          "id":2,
-          "name": "Zozz anti-germanique",
-          "description": "Le Zozz anti-germanique est un Zozz spécialisé dans la lutte contre les Zozzers de type germanique.",
-          "family": "Zozz",
-          "affinity": "Terre",
-          "imgUrl": "img/zozz_anti_germanique.png",
-          "smallImgUrl": "img/small/zozz_anti_germanique.png",
-          "energy": 2.5,
-          "hp": 90,
-          "defense": 80,
-          "attack": 70,
-          "price": 5.99
-        },
-        {
-          "id":3,
-          "name": "ZéoZolitique",
-          "description": "Le ZéoZolitique est un Zozz influencé par la géopolitique.",
-          "family": "Zozz",
-          "affinity": "Feu",
-          "imgUrl": "img/zeozolitique.png",
-          "smallImgUrl": "img/small/zeozolitique.png",
-          "energy": 3.0,
-          "hp": 70,
-          "defense": 60,
-          "attack": 80,
-          "price": 6.99
-        },
-        {
-          "id":4,
-          "name": "Zozzermanique",
-          "description": "Le Zozzermanique est un Zozzer de type germanique, puissant et agressif.",
-          "family": "Zozzer",
-          "affinity": "Eau",
-          "imgUrl": "img/zozzgermanique.png",
-          "smallImgUrl": "img/small/zozzgermanique.png",
-          "energy": 2.5,
-          "hp": 80,
-          "defense": 70,
-          "attack": 60,
-          "price": 5.99
-        },
-        {
-          "id":5,
-          "name": "Zozz chef de projet",
-          "description": "Le Zozz chef de projet est un Zozz spécialisé dans la gestion de projets complexes. Il a été commandité par le Zozz anti-germanique pour couler une dalle stratégique.",
-          "family": "Zozz",
-          "affinity": "Air",
-          "imgUrl": "img/zozz_chef_de_projet.png",
-          "smallImgUrl": "img/small/zozz_chef_de_projet.png",
-          "energy": 3.5,
-          "hp": 60,
-          "defense": 40,
-          "attack": 50,
-          "price": 7.99
-        },
         {
           "id":6,
           "name": "Zozzers du bâtiment",
@@ -246,6 +176,82 @@ axiosMockAdapterInstance.onGet(process.env.REACT_APP_RPROXY+"cardapi").reply(200
           "attack": 60,
           "price": 7.99
         }
-    ])
+])
 
-axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"storeapi").reply(200)
+axiosMockAdapterInstance.onGet(process.env.REACT_APP_RPROXY+"cardapi/public/cards/1/user").reply(200,
+[
+  {
+    "id":1,
+    "name": "Zozz enragé",
+    "description": "Cette carte représente un Zozzer enragé.",
+    "family": "Zozzer",
+    "affinity": "Terre",
+    "imgUrl": "img/zozz_enrage.png",
+    "smallImgUrl": "img/small/zozz_aenrage.png",
+    "energy": 1.5,
+    "hp": 80,
+    "defense": 70,
+    "attack": 50,
+    "price": 2.99
+  },
+  {
+    "id":2,
+    "name": "Zozz anti-germanique",
+    "description": "Le Zozz anti-germanique est un Zozz spécialisé dans la lutte contre les Zozzers de type germanique.",
+    "family": "Zozz",
+    "affinity": "Terre",
+    "imgUrl": "img/zozz_anti_germanique.png",
+    "smallImgUrl": "img/small/zozz_anti_germanique.png",
+    "energy": 2.5,
+    "hp": 90,
+    "defense": 80,
+    "attack": 70,
+    "price": 5.99
+  },
+  {
+    "id":3,
+    "name": "ZéoZolitique",
+    "description": "Le ZéoZolitique est un Zozz influencé par la géopolitique.",
+    "family": "Zozz",
+    "affinity": "Feu",
+    "imgUrl": "img/zeozolitique.png",
+    "smallImgUrl": "img/small/zeozolitique.png",
+    "energy": 3.0,
+    "hp": 70,
+    "defense": 60,
+    "attack": 80,
+    "price": 6.99
+  },
+  {
+    "id":4,
+    "name": "Zozzermanique",
+    "description": "Le Zozzermanique est un Zozzer de type germanique, puissant et agressif.",
+    "family": "Zozzer",
+    "affinity": "Eau",
+    "imgUrl": "img/zozzgermanique.png",
+    "smallImgUrl": "img/small/zozzgermanique.png",
+    "energy": 2.5,
+    "hp": 80,
+    "defense": 70,
+    "attack": 60,
+    "price": 5.99
+  },
+  {
+    "id":5,
+    "name": "Zozz chef de projet",
+    "description": "Le Zozz chef de projet est un Zozz spécialisé dans la gestion de projets complexes. Il a été commandité par le Zozz anti-germanique pour couler une dalle stratégique.",
+    "family": "Zozz",
+    "affinity": "Air",
+    "imgUrl": "img/zozz_chef_de_projet.png",
+    "smallImgUrl": "img/small/zozz_chef_de_projet.png",
+    "energy": 3.5,
+    "hp": 60,
+    "defense": 40,
+    "attack": 50,
+    "price": 7.99
+  },
+])
+    
+axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"storeapi/buy").reply(200)
+axiosMockAdapterInstance.onPost(process.env.REACT_APP_RPROXY+"storeapi/sell").reply(200)
+

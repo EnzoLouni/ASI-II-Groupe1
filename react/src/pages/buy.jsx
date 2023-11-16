@@ -13,7 +13,7 @@ const Buy = () => {
     
     async function buyCard(){
         try {
-            await axios.post(process.env.REACT_APP_RPROXY+"storeapi",{
+            await axios.post(process.env.REACT_APP_RPROXY+"storeapi/buy",{
                 cardId: selectedZozzemon.id,
                 userId: userCookies.id
             })
@@ -29,7 +29,7 @@ const Buy = () => {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column computer={10}>
-                            <ZozzemonBoard/>
+                            <ZozzemonBoard variant={"buy"}/>
                         </Grid.Column>
                         {selectedZozzemon && 
                         <Grid.Column computer={6} verticalAlign="middle">

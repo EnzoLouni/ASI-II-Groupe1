@@ -15,7 +15,7 @@ const Login = () => {
     async function submitLoginForm(e){
         e.preventDefault()
             try {
-                const newUserPr = await axios.post(process.env.REACT_APP_RPROXY+"authapi",{
+                const newUserPr = await axios.post(process.env.REACT_APP_RPROXY+"authapi/auth",{
                     login: loginRef.current.value,
                     password: passwordRef.current.value
                 })

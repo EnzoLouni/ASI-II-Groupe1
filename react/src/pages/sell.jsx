@@ -14,7 +14,7 @@ const Sell = () => {
 
     async function sellCard(){
         try {
-            await axios.post(process.env.REACT_APP_RPROXY+"storeapi",{
+            await axios.post(process.env.REACT_APP_RPROXY+"storeapi/sell",{
                 cardId: selectedZozzemon.id,
                 userId: userCookies.id
             })
@@ -30,7 +30,7 @@ const Sell = () => {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column computer={10}>
-                            <ZozzemonBoard/>
+                            <ZozzemonBoard variant={"sell"}/>
                         </Grid.Column>
                         {selectedZozzemon && 
                         <Grid.Column computer={6} verticalAlign="middle">
