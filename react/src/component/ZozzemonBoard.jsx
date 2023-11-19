@@ -4,18 +4,20 @@ import { Table } from "semantic-ui-react";
 import { useSelector, useDispatch } from 'react-redux';
 import { setSelectedZozzemon, setZozzemonList } from "../core/reducers/zozzemonsSlice";
 import axios from "../core/axiosMockInstance";
+import { useCookies } from "react-cookie";
 
 const ZozzemonBoard = ({variant}) => {
     const zozzemonList = useSelector(state => state.zozzemon.zozzemonList)
+    const [userCookies, setUserCookies] = useCookies(['user']);
     const dispatch = useDispatch();
     let zozzemonEndPoint
     switch (variant) {
-        case "sell":
+        case "buy":
             zozzemonEndPoint = "cardapi/public/cards_to_sell"
             break;
     
-        case "buy":
-            zozzemonEndPoint = "cardapi/public/cards/1/user"
+        case "sell":
+            zozzemonEndPoint = "cardapi/public/cards/"+userCookies.id+"/user"
             break;
 
         default:

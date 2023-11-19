@@ -4,6 +4,7 @@ import com.cpe.irc5.asi2.grp1.card_manager.client.CardClient;
 import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
 import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
 import com.cpe.irc5.asi2.grp1.notif_manager.bus.NotificationBusService;
 import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
@@ -61,6 +62,7 @@ public class StoreService {
         log.info("Sell Request received");
         BusMessage busMessage = BusMessage.builder()
                 .groupID(GroupID.Stores)
+                .requestType(RequestType.SELL)
                 .origin(RequestOrigin.IN)
                 .dataBusObject(order)
                 .classOfDataBusObject(order.getClass())
@@ -83,7 +85,7 @@ public class StoreService {
                         .timestamp(new Date())
                         .build();
                 storeTempRepository.save(newStoreTransaction);
-                cardClient.updateCard(cardSold.getId(), cardSold);
+                cardClient.updateCard(cardSold.getId(), RequestType.SELL, cardSold);
             } catch (Exception e) {
                 log.error(TRANSACTION_NOT_CREATED, seller.getLogin());
                 response.setOperationsWereMade(false);
@@ -123,6 +125,7 @@ public class StoreService {
                 seller = userClient.getUser(transactionStored.getUserId());
                 seller.setWallet(seller.getWallet() + cardSold.getPrice());
                 userClient.updateUser(seller.getId(), seller);
+                storeTempRepository.delete(transactionStored);
                 StoreTransaction newStoreTransaction = new StoreTransaction(transactionStored);
                 storeRepository.save(newStoreTransaction);
                 response.setMessage(SUCCESS);
@@ -153,6 +156,7 @@ public class StoreService {
         log.info("Buy Request received");
         BusMessage busMessage = BusMessage.builder()
                 .groupID(GroupID.Stores)
+                .requestType(RequestType.BUY)
                 .origin(RequestOrigin.IN)
                 .dataBusObject(order)
                 .classOfDataBusObject(order.getClass())
@@ -170,13 +174,13 @@ public class StoreService {
                 newOwner.setWallet(remainingBalance);
                 cardBought.setUserDto(newOwner);
                 StoreTransactionTemp newStoreTransaction = StoreTransactionTemp.builder()
-                        .action(StoreAction.SELL.name())
+                        .action(StoreAction.BUY.name())
                         .cardId(cardBought.getId())
                         .userId(newOwner.getId())
                         .timestamp(new Date())
                         .build();
                 storeTempRepository.save(newStoreTransaction);
-                cardClient.updateCard(cardBought.getId(), cardBought);
+                cardClient.updateCard(cardBought.getId(), RequestType.BUY, cardBought);
             } catch(Exception e) {
                 log.error(TRANSACTION_NOT_CREATED, newOwner.getLogin());
                 response.setOperationsWereMade(false);
@@ -209,6 +213,9 @@ public class StoreService {
                 buyer = userClient.getUser(transactionStored.getUserId());
                 buyer.setWallet(buyer.getWallet() - cardBought.getPrice());
                 userClient.updateUser(buyer.getId(), buyer);
+                storeTempRepository.delete(transactionStored);
+                StoreTransaction storeTransaction = new StoreTransaction(transactionStored);
+                storeRepository.save(storeTransaction);
                 response.setMessage(SUCCESS);
                 response.setOperationsWereMade(true);
             } catch (Exception e) {

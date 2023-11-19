@@ -2,6 +2,8 @@ package com.cpe.irc5.asi2.grp1.card_manager.controller.privates;
 
 import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
 import com.cpe.irc5.asi2.grp1.card_manager.service.CardModelService;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
+import com.cpe.irc5.asi2.grp1.store_manager.enums.StoreAction;
 import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Hidden;
@@ -30,8 +32,8 @@ public class CardPrivateController {
         cardModelService.createCardRequest(newUser);
     }
 
-    @PutMapping("/cards/{cardId}")
-    public void updateCard(@PathVariable(name = "cardId") Integer cardId, @RequestBody @Valid CardDto newCardDto) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
-        cardModelService.updateCardRequest(cardId, newCardDto);
+    @PutMapping("/cards/{cardId}/{type}")
+    public void updateCard(@PathVariable(name = "cardId") Integer cardId, @PathVariable(name = "type") RequestType type, @RequestBody @Valid CardDto newCardDto) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+        cardModelService.updateCardRequest(cardId, type, newCardDto);
     }
 }

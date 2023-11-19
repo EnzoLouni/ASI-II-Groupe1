@@ -125,5 +125,5 @@ public class CardReferenceService {
 
     public CardReference getCardReference(Integer cardReferenceId) { return cardRepository.findById(cardReferenceId).get(); }
 
-    public Integer getCardReferenceIdByName(String cardReferenceName) { return cardRepository.findIdByName(cardReferenceName); }
+    public CardReference getCardReferenceIdByName(String cardReferenceName) { return cardRepository.findIdByName(cardReferenceName); }
 }

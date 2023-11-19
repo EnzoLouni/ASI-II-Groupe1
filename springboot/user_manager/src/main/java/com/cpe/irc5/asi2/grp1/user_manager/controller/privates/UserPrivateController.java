@@ -25,7 +25,7 @@ public class UserPrivateController {
     private final UserService userService;
 
     @PostMapping("/auth")
-    boolean authentication(String login, String password) {
+    UserDto authentication(String login, String password) {
         return userService.canCredentialsMatch(login, password);
     }
 

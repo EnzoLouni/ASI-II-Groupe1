@@ -46,11 +46,7 @@ public class ActiveMqBus {
             log.info("[{}] dequeued message with Group ID: {}", busName, busMessage.getGroupID());
             if(busMessage.getGroupID().equals(GroupID.Cards)) {
                 if(busMessage.getRequestType().equals(RequestType.PUT)) {
-                    if(busMessage.getOrigin().equals(RequestOrigin.OUT)) {
-                        CardDto cardToUpdate = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
-                        cardModelService.updateCard(cardToUpdate.getId(), cardToUpdate);
-                    }
-                    else if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
+                    if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
                         CardDto cardToUpdate = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
                         cardReferenceService.updateCardReference(cardToUpdate.getId(), cardMapper.toCardReference(cardToUpdate));
                     }
@@ -62,6 +58,11 @@ public class ActiveMqBus {
                     else if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
                         CardDto cardToUpdate = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
                         cardReferenceService.createCardReference(cardMapper.toCardReference(cardToUpdate));
+                    }
+                }  else if(busMessage.getRequestType().equals(RequestType.BUY) || busMessage.getRequestType().equals(RequestType.SELL)) {
+                    if(busMessage.getOrigin().equals(RequestOrigin.OUT)) {
+                        CardDto cardToUpdate = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
+                        cardModelService.updateCard(cardToUpdate.getId(), busMessage.getRequestType(), cardToUpdate);
                     }
                 }
             }

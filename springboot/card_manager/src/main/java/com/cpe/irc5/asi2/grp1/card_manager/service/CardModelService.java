@@ -14,6 +14,7 @@ import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
 import com.cpe.irc5.asi2.grp1.notif_manager.bus.NotificationBusService;
 import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
 import com.cpe.irc5.asi2.grp1.store_manager.bus.StoreBusService;
+import com.cpe.irc5.asi2.grp1.store_manager.enums.StoreAction;
 import com.cpe.irc5.asi2.grp1.user_manager.bus.UserBusService;
 import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -129,12 +130,12 @@ public class CardModelService {
         return cardModelRepository.save(newCard);
     }
 
-    public void updateCardRequest(Integer id, CardDto cardToUpdate) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
+    public void updateCardRequest(Integer id, RequestType type, CardDto cardToUpdate) throws MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("Updating Card Request received");
         cardToUpdate.setId(id);
         BusMessage busMessage = BusMessage.builder()
                 .groupID(GroupID.Cards)
-                .requestType(RequestType.PUT)
+                .requestType(type)
                 .origin(RequestOrigin.OUT)
                 .dataBusObject(cardToUpdate)
                 .classOfDataBusObject(cardToUpdate.getClass())
@@ -142,19 +143,20 @@ public class CardModelService {
         cardBusService.pushInQueue(busMessage);
     }
 
-    public void updateCard(Integer cardId, CardDto cardToUpdate) throws CannotCreateTransactionException, MessageNotWriteableException, JsonProcessingException, ConnectException {
+    public void updateCard(Integer cardId, RequestType type,CardDto cardToUpdate) throws CannotCreateTransactionException, MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("Update Card with ID: {}", cardToUpdate.getId());
         CardModel currentCard = null;
         try {
             currentCard = cardModelRepository.findById(cardId).get();
             cardToUpdate.setId(cardId);
-            cardModelRepository.save(cardMapper.toCardModel(cardToUpdate));
+            currentCard = cardModelRepository.save(cardMapper.toCardModel(cardToUpdate));
         } catch(EmptyResultDataAccessException e) {
             log.error(CARD_NOT_FOUND, cardToUpdate.getName());
             cardModelRepository.save(currentCard);
         } finally {
             BusMessage busMessage = BusMessage.builder()
                     .groupID(GroupID.Stores)
+                    .requestType(type)
                     .origin(RequestOrigin.OUT)
                     .socketId(UUID.randomUUID().toString())
                     .dataBusObject(cardMapper.toCardDto(currentCard))

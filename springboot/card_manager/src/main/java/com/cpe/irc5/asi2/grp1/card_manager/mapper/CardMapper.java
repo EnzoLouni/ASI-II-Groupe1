@@ -42,8 +42,8 @@ public abstract class CardMapper {
     @Mapping(target = "defense", source = "cardDto.defense")
     @Mapping(target = "attack", source = "cardDto.attack")
     @Mapping(target = "price", source = "cardDto.price")
-    @Mapping(target = "userId", expression = "java(cardDto.getUserDto().getId())")
-    @Mapping(target = "cardReferenceId", expression = "java(cardReferenceService.getCardReferenceIdByName(cardDto.getName()))")
+    @Mapping(target = "userId", expression = "java(cardDto.getUserDto() != null ? cardDto.getUserDto().getId() : null)")
+    @Mapping(target = "cardReferenceId", expression = "java(cardReferenceService.getCardReferenceIdByName(cardDto.getName()).getId())")
     public abstract CardModel toCardModel(CardDto cardDto);
 
 

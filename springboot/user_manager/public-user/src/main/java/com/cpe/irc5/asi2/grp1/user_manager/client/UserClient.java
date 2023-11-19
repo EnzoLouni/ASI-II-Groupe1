@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public interface UserClient {
 
     @PostMapping("/private/auth")
-    boolean authentication(@RequestParam("login") String login, @RequestParam("password") String password);
+    UserDto authentication(@RequestParam("login") String login, @RequestParam("password") String password);
 
     @GetMapping("/public/users/{id}")
     UserDto getUser(@PathVariable(name = "id") Integer id);

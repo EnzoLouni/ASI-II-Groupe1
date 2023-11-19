@@ -34,27 +34,27 @@ public class ActiveMqBus {
 
     @JmsListener(destination = "${store.busName}", containerFactory = "activeMqFactory")
     public void processMessage(ActiveMQTextMessage content) throws ConnectException {
-        log.info("[{}] dequeued message with Group ID: {}", busName, content.getGroupID());
         ObjectMapper mapper = new ObjectMapper();
         try {
             BusMessage busMessage = toBusMessage(content);
+            log.info("[{}] dequeued message with Group ID: {}", busName, busMessage.getGroupID());
             if(busMessage.getGroupID().equals(GroupID.Stores)) {
                 if(busMessage.getRequestType().equals(RequestType.SELL)) {
-                    if(busMessage.getRequestType().equals(RequestOrigin.IN)) {
+                    if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
                         StoreOrder sellOrder = mapper.convertValue(busMessage.getDataBusObject(), StoreOrder.class);
                         storeService.sell(sellOrder);
                     }
-                    else if(busMessage.getRequestType().equals(RequestOrigin.OUT)){
+                    else if(busMessage.getOrigin().equals(RequestOrigin.OUT)){
                         CardDto cardSold = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
                         storeService.callBackSell(cardSold);
                     }
                 }
                 else if(busMessage.getRequestType().equals(RequestType.BUY)) {
-                    if(busMessage.getRequestType().equals(RequestOrigin.IN)) {
+                    if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
                         StoreOrder buyOrder = mapper.convertValue(busMessage.getDataBusObject(), StoreOrder.class);
                         storeService.buy(buyOrder);
                     }
-                    else if(busMessage.getRequestType().equals(RequestOrigin.OUT)){
+                    else if(busMessage.getOrigin().equals(RequestOrigin.OUT)){
                         CardDto cardBought = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
                         storeService.callBackBuy(cardBought);
                     }

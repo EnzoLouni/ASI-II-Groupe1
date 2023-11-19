@@ -23,8 +23,8 @@ const Register = () => {
                 setIsWaitingfForNotif(true)
                 axios.post(process.env.REACT_APP_RPROXY+"userapi/public/user",{
                     login: loginRef.current.value,
-                    firstName: firstNameRef.current.value,
-                    lastName: lastNameRef.current.value,
+                    firstname: firstNameRef.current.value,
+                    lastname: lastNameRef.current.value,
                     password: passwordRef.current.value
                 })
                 notifSocket.on("notification",()=> {

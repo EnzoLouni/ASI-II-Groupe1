@@ -50,9 +50,9 @@ public class UserService {
     private final UserBusService userBusService;
     private final NotificationBusService notificationBusService;
 
-    public boolean canCredentialsMatch(String login, String password) throws DataAccessResourceFailureException {
+    public UserDto canCredentialsMatch(String login, String password) throws DataAccessResourceFailureException {
         log.info("Matching Credentials");
-        return userRepository.findUserByLoginAndPassword(login, DigestUtils.sha256Hex(password)) != null;
+        return userMapper.toUserDto(userRepository.findUserByLoginAndPassword(login, DigestUtils.sha256Hex(password)));
     }
 
     public UserDto getUser(Integer userId) throws CannotCreateTransactionException {
@@ -83,6 +83,7 @@ public class UserService {
         User userCreated = null;
         try {
             userToCreate.setPassword(DigestUtils.sha256Hex(userToCreate.getPassword()));
+            userToCreate.setWallet(1500.0);
             userCreated = userRepository.save(userMapper.toUser(userToCreate));
             cardClient.createCardsForUser(userMapper.toUserDto(userCreated));
         } catch(Exception e) {

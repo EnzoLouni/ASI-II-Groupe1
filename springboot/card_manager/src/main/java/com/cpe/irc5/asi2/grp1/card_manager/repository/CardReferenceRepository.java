@@ -14,5 +14,5 @@ public interface CardReferenceRepository extends CrudRepository<CardReference, I
     List<CardReference> findRandomCardReferences();
 
     @Query(value = "SELECT c FROM CardReference c WHERE c.name = :cardReferenceName")
-    Integer findIdByName(@Param("cardReferenceName") String cardReferenceName);
+    CardReference findIdByName(@Param("cardReferenceName") String cardReferenceName);
 }

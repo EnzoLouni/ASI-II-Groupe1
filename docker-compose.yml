@@ -10,6 +10,16 @@ services:
     ports:
       - 5432:5432
     restart: always
+  reverseproxy:
+    container_name: reguthproxy
+    image: schtoukai/reguthproxy_img
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: "host"
+    depends_on: 
+      - db
   activemq:
     container_name: active_moelle
     image: schtoukai/active_moelle_img
@@ -21,17 +31,7 @@ services:
       - 8161:8161
     depends_on: 
       - db
-      #- reverseproxy
-  reverseproxy:
-    container_name: reguthproxy
-    image: schtoukai/reguthproxy_img
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    restart: always
-    network_mode: "host"
-    depends_on: 
-      - db
+      - reverseproxy
   userservice:
     container_name: vlad_thounine
     build:

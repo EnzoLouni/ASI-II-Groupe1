@@ -2,6 +2,7 @@ package com.cpe.irc5.asi2.grp1.auth_manager.controller;
 
 import com.cpe.irc5.asi2.grp1.auth_manager.dto.AuthDto;
 import com.cpe.irc5.asi2.grp1.auth_manager.service.AuthenticationService;
+import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     @PostMapping("/auth")
-    public boolean authentication(@RequestBody @Valid AuthDto request) {
+    public UserDto authentication(@RequestBody @Valid AuthDto request) {
         return authenticationService.authenticate(request);
     }
 }
