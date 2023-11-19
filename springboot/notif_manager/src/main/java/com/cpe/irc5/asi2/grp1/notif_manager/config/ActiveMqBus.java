@@ -1,9 +1,10 @@
 package com.cpe.irc5.asi2.grp1.notif_manager.config;
 
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
+import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
 import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
 import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
-import com.cpe.irc5.asi2.grp1.notif_manager.service.NotificationService;
+import com.cpe.irc5.asi2.grp1.notif_manager.controller.NotificationController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toB
 @Component
 @Slf4j
 public class ActiveMqBus {
-    private final NotificationService notificationService;
+    /*private final NotificationController notificationController;
 
     @Value("${notification.busName}")
     private String busName;
@@ -33,13 +34,13 @@ public class ActiveMqBus {
         try {
             BusMessage busMessage = toBusMessage(content);
             log.info("[{}] dequeued message with Group ID: {}", busName, busMessage.getGroupID());
-            if(busMessage.getGroupID().equals(GroupID.Notifications)) {
-                notificationService.sendNotificationResponse(UUID.fromString(busMessage.getSocketId()), mapper.convertValue(busMessage.getDataBusObject(), NotificationResponse.class));
+            if(busMessage.getGroupID().equals(GroupID.Notifications) && busMessage.getOrigin().equals(RequestOrigin.OUT)) {
+                //notificationController.notify(UUID.fromString(busMessage.getSocketId()), mapper.convertValue(busMessage.getDataBusObject(), NotificationResponse.class));
             }
         } catch (JMSException e) {
             throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }

@@ -1,7 +1,7 @@
 package com.cpe.irc5.asi2.grp1.card_manager.service;
 
+import com.cpe.irc5.asi2.grp1.card_manager.bus.CardBusService;
 import com.cpe.irc5.asi2.grp1.card_manager.model.CardReference;
-import com.cpe.irc5.asi2.grp1.card_manager.repository.CardModelRepository;
 import com.cpe.irc5.asi2.grp1.card_manager.repository.CardReferenceRepository;
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
@@ -11,8 +11,6 @@ import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
 import com.cpe.irc5.asi2.grp1.notif_manager.bus.NotificationBusService;
 import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -28,10 +26,8 @@ import java.util.UUID;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.CARD_NOT_CREATED;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.CARD_NOT_FOUND;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.CARD_REFERENCE_NOT_CREATED;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.GROUP;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.RESOURCE_NOT_FOUND;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.SUCCESS;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.TYPE;
 
 @RequiredArgsConstructor
 @Service
@@ -83,6 +79,7 @@ public class CardReferenceService {
         } finally {
             BusMessage busMessage = BusMessage.builder()
                     .groupID(GroupID.Notifications)
+                    .origin(RequestOrigin.OUT)
                     .socketId(UUID.randomUUID().toString())
                     .dataBusObject(response)
                     .classOfDataBusObject(response.getClass())
@@ -113,6 +110,7 @@ public class CardReferenceService {
         } finally {
             BusMessage busMessage = BusMessage.builder()
                     .groupID(GroupID.Notifications)
+                    .origin(RequestOrigin.OUT)
                     .socketId(UUID.randomUUID().toString())
                     .dataBusObject(response)
                     .classOfDataBusObject(response.getClass())

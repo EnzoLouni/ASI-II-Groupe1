@@ -1,20 +1,18 @@
 package com.cpe.irc5.asi2.grp1.card_manager.model;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.UniqueElements;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -26,7 +24,16 @@ import javax.validation.constraints.NotNull;
 public class CardReference extends CardBasics {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "sequence-generator")
+    @GenericGenerator(
+            name = "sequence-generator",
+            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+            parameters = {
+                    @Parameter(name = "sequence_name", value = "card_reference_sequence"),
+                    @Parameter(name = "initial_value", value = "44"),
+                    @Parameter(name = "increment_size", value = "1")
+            }
+    )
     private Integer id;
     @Column(name = "name", unique = true)
     private String name;
@@ -38,12 +45,4 @@ public class CardReference extends CardBasics {
     private String imgUrl;
     private String smallImgUrl;
 
-    public CardReference( CardBasics cBasics) {
-        super(cBasics);
-    }
-
-    public CardReference(Integer id, String name, String description, String family, String affinity, String imgUrl, String smallImgUrl) {
-        super(name, description, family, affinity, imgUrl, smallImgUrl);
-        this.id=id;
-    }
 }

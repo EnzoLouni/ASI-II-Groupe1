@@ -16,8 +16,6 @@ import com.cpe.irc5.asi2.grp1.user_manager.mapper.UserMapper;
 import com.cpe.irc5.asi2.grp1.user_manager.model.User;
 import com.cpe.irc5.asi2.grp1.user_manager.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -33,11 +31,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.CARD_NOT_FOUND;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.GROUP;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.ORIGIN;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.SUCCESS;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.TYPE;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.USER_NOT_CREATED;
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.USER_NOT_FOUND;
 import static java.util.stream.Collectors.toList;
@@ -100,6 +94,7 @@ public class UserService {
             response.setOperationsWereMade(false);
             BusMessage busMessage = BusMessage.builder()
                     .groupID(GroupID.Notifications)
+                    .origin(RequestOrigin.OUT)
                     .socketId(UUID.randomUUID().toString())
                     .dataBusObject(response)
                     .classOfDataBusObject(response.getClass())
@@ -125,8 +120,10 @@ public class UserService {
         }
         BusMessage busMessage = BusMessage.builder()
                 .groupID(GroupID.Notifications)
+                .origin(RequestOrigin.OUT)
                 .socketId(UUID.randomUUID().toString())
                 .dataBusObject(response)
+                .classOfDataBusObject(response.getClass())
                 .build();
         notificationBusService.pushInQueue(busMessage);
     }
@@ -138,7 +135,7 @@ public class UserService {
             userToUpdate.setId(id);
             BusMessage busMessage = BusMessage.builder()
                     .groupID(GroupID.Users)
-                    .requestType(RequestType.POST)
+                    .requestType(RequestType.PUT)
                     .origin(RequestOrigin.IN)
                     .dataBusObject(userToUpdate)
                     .build();
@@ -153,7 +150,7 @@ public class UserService {
         userToUpdate.setId(id);
         BusMessage busMessage = BusMessage.builder()
                 .groupID(GroupID.Users)
-                .requestType(RequestType.POST)
+                .requestType(RequestType.PUT)
                 .origin(RequestOrigin.OUT)
                 .dataBusObject(userToUpdate)
                 .build();
@@ -178,6 +175,7 @@ public class UserService {
         } finally {
             BusMessage busMessage = BusMessage.builder()
                     .groupID(GroupID.Notifications)
+                    .origin(RequestOrigin.OUT)
                     .socketId(UUID.randomUUID().toString())
                     .dataBusObject(response)
                     .build();

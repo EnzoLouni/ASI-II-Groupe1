@@ -1,3 +1,32 @@
+CREATE DATABASE card_manager;
+\c card_manager;
+
+DROP TABLE IF EXISTS public.card_model;
+CREATE TABLE public.card_model (
+	id SERIAL,
+	energy FLOAT,
+	hp FLOAT,
+	defense FLOAT,
+	attack FLOAT,
+	price FLOAT,
+    user_id INTEGER DEFAULT NULL,
+	card_reference_id INTEGER,
+    CONSTRAINT PK_CARD_MODEL PRIMARY KEY (id)
+);
+
+DROP TABLE IF EXISTS public.card_reference;
+DROP SEQUENCE IF EXISTS card_reference_sequence;
+CREATE TABLE public.card_reference(
+	id SERIAL,
+	name VARCHAR(50) UNIQUE DEFAULT NULL,
+	description VARCHAR(3000) DEFAULT NULL,
+	family VARCHAR(100) DEFAULT NULL,
+	affinity VARCHAR(100) DEFAULT NULL,
+	img_url VARCHAR(200) DEFAULT NULL,
+	small_img_url VARCHAR(200) DEFAULT NULL,
+    CONSTRAINT PK_CARD_REFERENCE PRIMARY KEY (id)
+);
+
 \c card_manager;
 INSERT INTO card_reference (id,name, description, family, affinity, img_url, small_img_url)
 VALUES 
@@ -44,7 +73,5 @@ VALUES
     (42,'Zélanchon', 'Zélanchon incarne la force et la détermination dans le monde de "Zozzémon."\n\nDoté d''une capacité spéciale unique, "Éloquence Impassible," il renforce sa défense et sa résistance au combat pour incarner la résolution inébranlable de Mélenchon. Zélanchon est prêt à défendre ses idéaux politiques avec un calme imperturbable.', 'Zélanchon', 'Lumière', 'img/zelanchon.png', 'img/small/zelanchon.png'),
     (43,'Zozz le Chaud', 'Zozz le Chaud est une créature impulsive, prête à se lancer dans n''importe quelle aventure ou entreprise dans le monde de "Zozzémon."\n\nDoté d''une capacité spéciale unique, "Audace Inébranlable," il augmente son attaque pour relever tous les défis avec confiance. Zozz le Chaud est prêt à se lancer dans l''inconnu, sans craindre les conséquences, déterminé à suivre son instinct.', 'Zozz', 'Terre', 'img/zozz_le_chaud.png', 'img/small/zozz_le_chaud.png');
 
-
-\c user_manager;
-INSERT INTO public.user(id,login,password,wallet,lastName,firstName) VALUES(1,'admin','8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',500.0,'Admin','Admin');
+CREATE SEQUENCE card_reference_sequence START 44;
 

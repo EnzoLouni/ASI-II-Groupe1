@@ -1,5 +1,6 @@
 package com.cpe.irc5.asi2.grp1.card_manager.service;
 
+import com.cpe.irc5.asi2.grp1.card_manager.bus.CardBusService;
 import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
 import com.cpe.irc5.asi2.grp1.card_manager.mapper.CardMapper;
 import com.cpe.irc5.asi2.grp1.card_manager.model.CardModel;
@@ -12,6 +13,7 @@ import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
 import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
 import com.cpe.irc5.asi2.grp1.notif_manager.bus.NotificationBusService;
 import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
+import com.cpe.irc5.asi2.grp1.store_manager.bus.StoreBusService;
 import com.cpe.irc5.asi2.grp1.user_manager.bus.UserBusService;
 import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,7 +52,7 @@ public class CardModelService {
     private final CardReferenceService cardReferenceService;
     private final CardBusService cardBusService;
     private final UserBusService userBusService;
-    private final NotificationBusService notificationBusService;
+    private final StoreBusService storeBusService;
 
     public CardDto getCard(Integer cardId) {
         log.info("Getting Card with ID {}", cardId);
@@ -142,26 +144,23 @@ public class CardModelService {
 
     public void updateCard(Integer cardId, CardDto cardToUpdate) throws CannotCreateTransactionException, MessageNotWriteableException, JsonProcessingException, ConnectException {
         log.info("Update Card with ID: {}", cardToUpdate.getId());
-        NotificationResponse response = new NotificationResponse();
+        CardModel currentCard = null;
         try {
-            cardModelRepository.findById(cardId);
+            currentCard = cardModelRepository.findById(cardId).get();
             cardToUpdate.setId(cardId);
             cardModelRepository.save(cardMapper.toCardModel(cardToUpdate));
-            response.setMessage(SUCCESS);
-            response.setOperationsWereMade(true);
         } catch(EmptyResultDataAccessException e) {
             log.error(CARD_NOT_FOUND, cardToUpdate.getName());
-            response.setMessage(RESOURCE_NOT_FOUND);
-            response.setErrors(Arrays.asList(String.format(CARD_NOT_FOUND, cardToUpdate.getName())));
-            response.setOperationsWereMade(false);
+            cardModelRepository.save(currentCard);
         } finally {
             BusMessage busMessage = BusMessage.builder()
-                    .groupID(GroupID.Notifications)
+                    .groupID(GroupID.Stores)
+                    .origin(RequestOrigin.OUT)
                     .socketId(UUID.randomUUID().toString())
-                    .dataBusObject(response)
-                    .classOfDataBusObject(response.getClass())
+                    .dataBusObject(cardMapper.toCardDto(currentCard))
+                    .classOfDataBusObject(CardDto.class)
                     .build();
-            notificationBusService.pushInQueue(busMessage);
+            storeBusService.pushInQueue(busMessage);
         }
     }
 

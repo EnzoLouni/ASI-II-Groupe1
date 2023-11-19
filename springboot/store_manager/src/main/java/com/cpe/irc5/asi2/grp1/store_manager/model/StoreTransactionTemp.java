@@ -19,8 +19,8 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "STORE_TRANSACTION", schema = "public")
-public class StoreTransaction {
+@Table(name = "STORE_TRANSACTION_TEMP", schema = "public")
+public class StoreTransactionTemp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -32,11 +32,4 @@ public class StoreTransaction {
     private String action;
     @Column
     private Date timestamp;
-
-    public StoreTransaction(StoreTransactionTemp storeTransactionTemp) {
-        this.userId=storeTransactionTemp.getUserId();
-        this.cardId=storeTransactionTemp.getCardId();
-        this.action=storeTransactionTemp.getAction();
-        this.timestamp=storeTransactionTemp.getTimestamp();
-    }
 }

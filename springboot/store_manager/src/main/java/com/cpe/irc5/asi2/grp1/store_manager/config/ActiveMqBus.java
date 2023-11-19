@@ -1,5 +1,6 @@
 package com.cpe.irc5.asi2.grp1.store_manager.config;
 
+import com.cpe.irc5.asi2.grp1.card_manager.dtos.CardDto;
 import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 
+import java.net.ConnectException;
+
 import static com.cpe.irc5.asi2.grp1.commons.config.ActiveMQMessageConverter.toBusMessage;
 
 @RequiredArgsConstructor
@@ -30,7 +33,7 @@ public class ActiveMqBus {
     private String busName;
 
     @JmsListener(destination = "${store.busName}", containerFactory = "activeMqFactory")
-    public void processMessage(ActiveMQTextMessage content) {
+    public void processMessage(ActiveMQTextMessage content) throws ConnectException {
         log.info("[{}] dequeued message with Group ID: {}", busName, content.getGroupID());
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -42,7 +45,8 @@ public class ActiveMqBus {
                         storeService.sell(sellOrder);
                     }
                     else if(busMessage.getRequestType().equals(RequestOrigin.OUT)){
-
+                        CardDto cardSold = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
+                        storeService.callBackSell(cardSold);
                     }
                 }
                 else if(busMessage.getRequestType().equals(RequestType.BUY)) {
@@ -51,7 +55,8 @@ public class ActiveMqBus {
                         storeService.buy(buyOrder);
                     }
                     else if(busMessage.getRequestType().equals(RequestOrigin.OUT)){
-
+                        CardDto cardBought = mapper.convertValue(busMessage.getDataBusObject(), CardDto.class);
+                        storeService.callBackBuy(cardBought);
                     }
                 }
             }
