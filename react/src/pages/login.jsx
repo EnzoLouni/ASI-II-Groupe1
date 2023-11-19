@@ -8,7 +8,6 @@ import { useCookies } from 'react-cookie';
 const Login = () => {
     const loginRef = useRef()
     const passwordRef = useRef()
-    const [formError,setFormError] = useState(null)
     const [userCookies, setUserCookies] = useCookies(['user']);
     const navigate = useNavigate();
 
@@ -20,7 +19,6 @@ const Login = () => {
                     password: passwordRef.current.value
                 })
                 if(newUserPr.data){
-                    setFormError(null)
                     setUserCookies('id',newUserPr.data.id)
                     setUserCookies('login',newUserPr.data.login)
                     setUserCookies('wallet',newUserPr.data.wallet)
@@ -28,7 +26,7 @@ const Login = () => {
                 }
 
             } catch (error) {
-                setFormError(error.message)
+                document.querySelector("#errorMsg").innerHTML = error.message
             }
     }
 
@@ -48,7 +46,7 @@ const Login = () => {
                         </div>
                         <a href="/register" className="ui basic button">Register</a>
                         <button type="submit" className="ui primary button">OK</button>
-                        {formError && <p className="ui error message">{formError}</p>}
+                        <p id="errorMsg" className="ui error"style={{color:"red"}}></p>
                     </Form>
                 </fieldset>
             </Grid.Column>

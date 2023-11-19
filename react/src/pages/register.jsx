@@ -10,7 +10,6 @@ const Register = () => {
     const lastNameRef = useRef()
     const passwordRef = useRef()
     const repasswordRef = useRef()
-    const [formError,setFormError] = useState(null)
     const navigate = useNavigate();
 
     async function submitRegisterForm(e){
@@ -26,15 +25,14 @@ const Register = () => {
                     password: passwordRef.current.value
                 })
                 if(registerPr.status === 200){
-                    setFormError(null)
                     navigate("/login")
                 }
             } catch (error) {
-                setFormError(error.message)
+                document.querySelector("#errorMsg").innerHTML = error.message
                 console.log(error)
             }
         } else {
-            setFormError("Passwords do not match")
+            document.querySelector("#errorMsg").innerHTML = "Passwords do not match"
         }
     }
 
@@ -65,7 +63,7 @@ const Register = () => {
                     </div>
                     <a href="/login" className="ui basic button">Login</a>
                     <button type="submit" className="ui primary button">OK</button>
-                    {formError && <p className="ui error message">{formError}</p>}
+                    <p id="errorMsg" className="ui error"style={{color:"red"}}></p>
                 </Form>
             </Grid.Column>
         </Grid>
