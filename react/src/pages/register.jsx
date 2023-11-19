@@ -1,8 +1,9 @@
 
 import React, { useRef, useState } from "react";
 import axios from "../core/axiosMockInstance";
-import { Form, Grid } from 'semantic-ui-react'
+import { Form, Grid, Loader } from 'semantic-ui-react'
 import { useNavigate } from "react-router-dom";
+import { notifSocket } from "../socket";
  
 const Register = () => {
     const loginRef = useRef()
@@ -11,22 +12,25 @@ const Register = () => {
     const passwordRef = useRef()
     const repasswordRef = useRef()
     const navigate = useNavigate();
+    const [isWaitingfForNotif, setIsWaitingfForNotif] = useState(false);
 
-    async function submitRegisterForm(e){
+    function submitRegisterForm(e){
         e.preventDefault()
         console.log(axios)
         if(passwordRef.current.value === repasswordRef.current.value)
         {
             try {
-                const registerPr = await axios.post(process.env.REACT_APP_RPROXY+"userapi/public/user",{
+                setIsWaitingfForNotif(true)
+                axios.post(process.env.REACT_APP_RPROXY+"userapi/public/user",{
                     login: loginRef.current.value,
                     firstName: firstNameRef.current.value,
                     lastName: lastNameRef.current.value,
                     password: passwordRef.current.value
                 })
-                if(registerPr.status === 200){
+                notifSocket.on("notification",()=> {
+                    setIsWaitingfForNotif(false)
                     navigate("/login")
-                }
+                })
             } catch (error) {
                 document.querySelector("#errorMsg").innerHTML = error.message
                 console.log(error)
@@ -38,6 +42,7 @@ const Register = () => {
 
     return (
         <Grid centered style={{height: '100vh',width:"100%"}} verticalAlign="middle">
+            <Loader  active={isWaitingfForNotif}>Loading</Loader>
             <Grid.Column width={8}>
                 <legend>Register</legend>
                 <Form onSubmit={submitRegisterForm}>

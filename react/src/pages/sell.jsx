@@ -1,22 +1,31 @@
-import { Button, Container, Grid } from "semantic-ui-react";
+import { Button, Container, Grid, Loader } from "semantic-ui-react";
 import Layout from "../component/Layout";
-import React from "react";
+import React, { useState } from "react";
 import ZozzemonBoard from "../component/ZozzemonBoard";
 import ZozzemonCard from "../component/ZozzemonCard";
 import axios from "../core/axiosMockInstance";
 import { useSelector } from "react-redux";
 import { useCookies } from "react-cookie";
+import { notifSocket } from "../socket";
+import { useNavigate } from "react-router-dom";
 
 const Sell = () => {
     const selectedZozzemon = useSelector(state => state.zozzemon.selectedZozzemon)
     const [userCookies, setUserCookies] = useCookies(['user']);
+    const [isWaitingfForNotif, setIsWaitingfForNotif] = useState(false);
+    const navigate = useNavigate();
 
-
-    async function sellCard(){
+    function sellCard(){
         try {
-            await axios.post(process.env.REACT_APP_RPROXY+"storeapi/sell",{
+            setIsWaitingfForNotif(true)
+            axios.post(process.env.REACT_APP_RPROXY+"storeapi/sell",{
                 cardId: selectedZozzemon.id,
                 userId: userCookies.id
+            })
+            notifSocket.on("notification",()=> {
+                setIsWaitingfForNotif(false)
+                setUserCookies('wallet',useCookies.wallet+selectedZozzemon.price)
+                navigate("/sell")
             })
         } catch (error) {
             console.log(error)
@@ -25,6 +34,7 @@ const Sell = () => {
 
     return (
         <Layout>
+            <Loader  active={isWaitingfForNotif}>Loading</Loader>
             <Container>
                 <h2 as="h2">My Zozzemons</h2>
                 <Grid>
