@@ -32,3 +32,19 @@ CREATE TABLE public.card (
 	price FLOAT,
     CONSTRAINT PK_CARD PRIMARY KEY (id)
 );
+
+
+CREATE DATABASE chatHisto_manager;
+\c chatHisto_manager;
+
+DROP TABLE IF EXISTS public.chat_historique ;
+CREATE TABLE public.chat_historique (
+    id bigserial NOT NULL,
+    user_id bigint NULL,
+    date_receive timestamp NULL,
+    msg character text NULL,
+    login varchar(50) NULL,
+CONSTRAINT PK_chat_historique  PRIMARY KEY 
+(
+	id
+));

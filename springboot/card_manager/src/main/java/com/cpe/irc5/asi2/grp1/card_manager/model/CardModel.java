@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class CardModel extends CardBasics {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private float energy;
     private float hp;

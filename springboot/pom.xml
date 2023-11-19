@@ -21,6 +21,7 @@
 		<module>card_manager</module>
 		<module>store_manager</module>
 		<module>auth_manager</module>
+		<module>chatHisto_manager</module>
 	</modules>
 
 	<properties>

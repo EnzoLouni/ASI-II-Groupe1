@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.cpe.irc5.asi2.grp1.card_manager.CardManagerApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 20.518 s - in com.cpe.irc5.asi2.grp1.card_manager.CardManagerApplicationTests
