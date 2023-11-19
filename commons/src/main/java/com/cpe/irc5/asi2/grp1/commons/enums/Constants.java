@@ -13,6 +13,8 @@ public class Constants {
     public static String CARD_NOT_CREATED = "New Card with Name {} was not created";
     public static String CARD_REFERENCE_NOT_FOUND = "No Card Reference with Name {} exists";
     public static String CARD_REFERENCE_NOT_CREATED = "New Card Reference with Name {} was not created";
+    public static String TRANSACTION_NOT_CREATED = "New Transaction for User {} was not created";
+    public static String TRANSACTION_NOT_FOUND = "No Transaction for User {} exists";
     public static String BAD_FORMAT = "Data Format is not respected";
     public static String USER_FORMAT = "User Format is not respected";
     public static String SERVICE_DOWN = "Service has not responded. Perhaps it is not up ?";
