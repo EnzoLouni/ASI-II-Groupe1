@@ -3,10 +3,20 @@ import http from 'http';
 import { Server } from 'socket.io';
 import { fetchUsers } from './usersGetter.mjs';
 import { emit, emitToRoom, joinRoom, sendMessageToQueue} from './chatService.mjs';
+import 'stompit';
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
+
+const connectOptions = {
+   host: 'tcp://localhost',
+   port: 61616,
+   user: 'admin',
+   pass: 'admin',
+}
+
+
 
 const queueName = 'chatQueue';
  
@@ -34,7 +44,16 @@ io.on('connection', (socket) => {
       emitToRoom(socket, room, 'chat message', msg);
 
       // Sending message to ActiveMQ
-      sendMessageToQueue(queueName, msg);
+      const client = stompit.connect(connectOptions, (error, client) => {
+         if (error) {
+            return console.error(error)
+         }
+         const sender = client.send({ destination: queueName });
+         sender.write(message);
+         sender.end();
+         client.disconnect();
+      });
+      
    });
 });
 

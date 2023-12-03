@@ -49,21 +49,3 @@ export const joinRoom = (socket, uidsrc, uiddest) => {
 const findRoom = (uidsrc, uiddest) => {
    return uiddest < uidsrc ? 'room'+uiddest+'-'+uidsrc : 'room'+uidsrc+'-'+uiddest
 }
-
-/**
- * This function send a message to the ActiveMQ queue
- * @param {String} queueName 
- * @param {String} message 
- */
-export const sendMessageToQueue = async (queueName, message) => {
-   const client = await connect({
-      host: 'tcp://localhost',
-      port: 61616,
-      user: 'admin',
-      pass: 'admin',
-     });
-   const sender = await client.send({ destination: queueName });
-   sender.write(message);
-   sender.end();
-   client.disconnect();
-}
