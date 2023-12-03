@@ -15,6 +15,12 @@ console.log("This is the result of the API call : ");
 console.log(usersJSON);
 console.log("--------------------------------------");
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                      //
+//  Il faudra s'aider du gitlab du cours sous Support de cours/esb-soa/tuto Springboot and activeMq ste3 et/ou 3bis pour l'historisation//
+//                                                                                                                                      //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
    io.on('connection', (socket) => {
       console.log('A user connected');
 
