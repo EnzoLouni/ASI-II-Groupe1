@@ -20,7 +20,6 @@ import com.cpe.irc5.asi2.grp1.store_manager.repository.StoreTempRepository;
 import com.cpe.irc5.asi2.grp1.user_manager.client.UserClient;
 import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,6 +27,8 @@ import org.springframework.stereotype.Service;
 import javax.jms.MessageNotWriteableException;
 import java.net.ConnectException;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.StreamSupport;
@@ -171,7 +172,6 @@ public class StoreService {
         Double remainingBalance = (newOwner.getWallet() - cardBought.getPrice());
         if(cardBought.getUserDto() == null &&  remainingBalance >= 0) {
             try {
-                newOwner.setWallet(remainingBalance);
                 cardBought.setUserDto(newOwner);
                 StoreTransactionTemp newStoreTransaction = StoreTransactionTemp.builder()
                         .action(StoreAction.BUY.name())
@@ -207,7 +207,7 @@ public class StoreService {
         log.info("CallBack For Store Buy Called");
         NotificationResponse response = new NotificationResponse();
         UserDto buyer = cardBought.getUserDto();
-        if(buyer == null) {
+        if(buyer != null) {
             try {
                 StoreTransactionTemp transactionStored = storeTempRepository.findByCardIdAndAction(cardBought.getId(), StoreAction.BUY.name());
                 buyer = userClient.getUser(transactionStored.getUserId());

@@ -21,10 +21,10 @@ public class CardDto extends DataBusObject {
     private String affinity;
     private String imgUrl;
     private String smallImgUrl;
-    private Float energy;
-    private Float hp;
-    private Float defense;
-    private Float attack;
-    private Float price;
+    private Double energy;
+    private Double hp;
+    private Double defense;
+    private Double attack;
+    private Double price;
     private UserDto userDto;
 }

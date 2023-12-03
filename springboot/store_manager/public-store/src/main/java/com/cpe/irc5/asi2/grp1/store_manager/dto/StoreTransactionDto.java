@@ -19,7 +19,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StoreTransactionDto {
+public class StoreTransactionDto{
     private Integer id;
     private UserDto userDto;
     private CardDto cardDto;

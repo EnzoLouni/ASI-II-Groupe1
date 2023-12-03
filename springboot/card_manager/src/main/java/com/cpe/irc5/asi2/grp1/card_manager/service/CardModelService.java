@@ -11,10 +11,7 @@ import com.cpe.irc5.asi2.grp1.commons.enums.GroupID;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestOrigin;
 import com.cpe.irc5.asi2.grp1.commons.enums.RequestType;
 import com.cpe.irc5.asi2.grp1.commons.model.BusMessage;
-import com.cpe.irc5.asi2.grp1.notif_manager.bus.NotificationBusService;
-import com.cpe.irc5.asi2.grp1.notif_manager.model.NotificationResponse;
 import com.cpe.irc5.asi2.grp1.store_manager.bus.StoreBusService;
-import com.cpe.irc5.asi2.grp1.store_manager.enums.StoreAction;
 import com.cpe.irc5.asi2.grp1.user_manager.bus.UserBusService;
 import com.cpe.irc5.asi2.grp1.user_manager.dtos.UserDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,15 +26,12 @@ import org.springframework.transaction.CannotCreateTransactionException;
 import javax.jms.MessageNotWriteableException;
 import java.net.ConnectException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.CARD_NOT_FOUND;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.RESOURCE_NOT_FOUND;
-import static com.cpe.irc5.asi2.grp1.commons.enums.Constants.SUCCESS;
 import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
@@ -67,12 +61,16 @@ public class CardModelService {
 
     public List<CardDto> getCardsByUser(Integer userId) {
         log.info("Getting all Cards By User");
-        return StreamSupport.stream(cardModelRepository.findAllByUserId(userId).spliterator(),false).map(cardMapper::toCardDto).collect(toList());
+        List<CardModel> cardModels = cardModelRepository.findAllByUserId(userId);
+        Collections.sort(cardModels);
+        return StreamSupport.stream(cardModels.spliterator(),false).map(cardMapper::toCardDto).collect(toList());
     }
 
     public List<CardDto> getCardsToSell() {
         log.info("Getting all Cards to Sell");
-        return StreamSupport.stream(cardModelRepository.findCardModelByUserIdIsNull().spliterator(),false).map(cardMapper::toCardDto).collect(toList());
+        List<CardModel> cardModels = cardModelRepository.findCardModelByUserIdIsNull();
+        Collections.sort(cardModels);
+        return StreamSupport.stream(cardModels.spliterator(),false).map(cardMapper::toCardDto).collect(toList());
     }
 
     public void createCardRequest(UserDto newUser) throws JsonProcessingException, MessageNotWriteableException, ConnectException {
@@ -117,13 +115,12 @@ public class CardModelService {
     }
 
     private CardModel createCardWithReference(CardReference cardReference, Integer userId) throws EmptyResultDataAccessException {
-        Random random = new Random();
         CardModel newCard = CardModel.builder()
-                .hp(random.nextFloat()*100)
-                .attack(random.nextFloat()*100)
-                .defense(random.nextFloat()*100)
-                .energy(random.nextFloat()*100)
-                .price(random.nextFloat()*1000)
+                .hp(Math.floor(Math.random()*10000)/100)
+                .attack(Math.floor(Math.random()*10000)/100)
+                .defense(Math.floor(Math.random()*10000)/100)
+                .energy(Math.floor(Math.random()*10000)/100)
+                .price(Math.floor(Math.random()*100000)/100)
                 .userId(userId)
                 .cardReferenceId(cardReference.getId())
                 .build();

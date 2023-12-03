@@ -139,6 +139,7 @@ public class UserService {
                     .requestType(RequestType.PUT)
                     .origin(RequestOrigin.IN)
                     .dataBusObject(userToUpdate)
+                    .classOfDataBusObject(userToUpdate.getClass())
                     .build();
             userBusService.pushInQueue(busMessage);
         } catch(NullPointerException e) {
@@ -154,6 +155,7 @@ public class UserService {
                 .requestType(RequestType.PUT)
                 .origin(RequestOrigin.OUT)
                 .dataBusObject(userToUpdate)
+                .classOfDataBusObject(userToUpdate.getClass())
                 .build();
         userBusService.pushInQueue(busMessage);
     }
@@ -164,7 +166,6 @@ public class UserService {
         try {
             userRepository.findById(id);
             userUpdated.setId(id);
-            userUpdated.setPassword(DigestUtils.sha256Hex(userUpdated.getPassword()));
             userRepository.save(userMapper.toUser(userUpdated));
             response.setMessage(SUCCESS);
             response.setOperationsWereMade(true);

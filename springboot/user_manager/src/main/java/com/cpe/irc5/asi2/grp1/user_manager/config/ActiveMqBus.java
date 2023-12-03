@@ -39,12 +39,9 @@ public class ActiveMqBus {
             log.info("[{}] dequeued message with Group ID: {}", busName, busMessage.getGroupID());
             if(busMessage.getGroupID().equals(GroupID.Users)) {
                 if(busMessage.getRequestType().equals(RequestType.PUT)) {
-                    if(busMessage.getOrigin().equals(RequestOrigin.IN)) {
+                    if(busMessage.getOrigin().equals(RequestOrigin.IN) || busMessage.getOrigin().equals(RequestOrigin.OUT)) {
                         UserDto userToUpdate = mapper.convertValue(busMessage.getDataBusObject(), UserDto.class);
                         userService.updateUser(userToUpdate.getId(), userToUpdate);
-                    }
-                    else if(busMessage.getOrigin().equals(RequestOrigin.OUT)) {
-
                     }
                 }
                 else if (busMessage.getRequestType().equals(RequestType.POST)) {

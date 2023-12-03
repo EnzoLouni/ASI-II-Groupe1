@@ -19,22 +19,27 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "CARD_MODEL", schema = "public")
-public class CardModel extends CardBasics {
+public class CardModel extends CardBasics implements Comparable<CardModel>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    private Float energy;
+    private Double energy;
     @NotNull
-    private Float hp;
+    private Double hp;
     @NotNull
-    private Float defense;
+    private Double defense;
     @NotNull
-    private Float attack;
+    private Double attack;
     @NotNull
-    private Float price;
+    private Double price;
     private Integer userId;
     @NotNull
     private Integer cardReferenceId;
+
+    @Override
+    public int compareTo(CardModel c) {
+        return this.id - c.id;
+    }
 }
