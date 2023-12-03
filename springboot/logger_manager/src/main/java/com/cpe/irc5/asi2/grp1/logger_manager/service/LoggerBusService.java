@@ -42,7 +42,7 @@ public class LoggerBusService {
     private void doReceive(String busName, TextMessage message) {
 
         try {
-            String clazz = message.getStringProperty("ObjectType");
+            // String clazz = message.getStringProperty("ObjectType");
 
             Object logMessage = mapper.readValue(message.getText(), Object.class);
 
