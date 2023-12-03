@@ -46,7 +46,7 @@ public class LoggerBusService {
 
             Object logMessage = mapper.readValue(message.getText(), Object.class);
 
-            logger.info("Received log message: {}", logMessage.toString());
+            logger.info("Bus {} Received message: {}", busName, logMessage.toString());
 
             System.out.println("[BUSLISTENER] [CHANNEL "+busName+"] RECEIVED Log MSG=["+message.getText()+"]");
         } catch (IOException | JMSException e) {
