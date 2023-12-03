@@ -8,13 +8,6 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, { cors: { origin: '*' } });
 
-
-let cardsJSON = JSON.parse(await fetchUserCards().then((cards) => JSON.stringify(cards)));
-console.log("--------------------------------------");
-console.log("This is the result of the API call : ");
-console.log(cardsJSON);
-console.log("--------------------------------------");
-
    io.on('connection', (socket) => {
       console.log('A user connected');
       const maxUsersPlaying = 2;
@@ -38,7 +31,8 @@ console.log("--------------------------------------");
          }
       });
 
-      socket.on('getUsercard', () => {
+      socket.on('getUsercard', async () => {
+         const cardsJSON = await fetchUserCards;
          console.log('jenvoie');
          emit(socket,'users', cardsJSON);
       });

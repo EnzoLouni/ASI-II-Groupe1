@@ -15,11 +15,11 @@ mock.onGet('localhost:8081/cardapi/public/cards/1/user').reply(200, {
   ],
 });
 
-export const fetchUserCards = async () => {
+export const fetchUserCards = new Promise(async () => {
   try {
     const response = await axios.get('localhost:8081/cardapi/public/cards/1/user');
     return response.data.cards;
   } catch (error) {
     console.error('Failed to fetch users:', error);
   }
-}
+})
