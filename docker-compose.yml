@@ -21,7 +21,7 @@ services:
     depends_on: 
       - db
   activemq:
-    container_name: active_moelle
+    container_name: active-moelle
     image: schtoukai/active_moelle_img
     build:
       context: ./activeMQ
@@ -33,15 +33,13 @@ services:
       - db
       - reverseproxy
   userservice:
-    container_name: vlad_thounine
+    container_name: vlad-thounine
     build:
         context: ./springboot/user_manager
         dockerfile: Dockerfile
     image: schtoukai/vlad_thounine_img
     ports:
       - 8081:8081
-    environment:
-      - spring.activemq.broker-url=tcp://active_moelle:61616
     depends_on:
       - db
       - reverseproxy
