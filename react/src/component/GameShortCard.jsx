@@ -1,6 +1,6 @@
 import React from "react";
 
-const GameShortCard = () => {
+const GameShortCard = ({card}) => {
     return (
             <div class="ui special cards">
                 <div class="card">

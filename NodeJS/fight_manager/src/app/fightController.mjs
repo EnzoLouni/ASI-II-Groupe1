@@ -18,8 +18,11 @@ const io = new Server(server, { cors: { origin: '*' } });
       let u2SelectedCards = [];
       let uidTurn = 0;
 
-      
-      socket.on('Connect', (uid) => {
+      emit(socket,'test', "test");
+      emit(socket,'connectedUser', "connectedUser");
+
+
+      socket.on('userConnect', (uid) => {
          usersConnected++;
          if(usersConnected >= maxUsersPlaying && isTheGameOn==false){
             isTheGameOn = true;
@@ -27,7 +30,6 @@ const io = new Server(server, { cors: { origin: '*' } });
             emit(socket, 'startGame', 'start');
          } else if (isTheGameOn==true) {
             emit(socket, 'spectategame', 'spectate');
-
          }
       });
 

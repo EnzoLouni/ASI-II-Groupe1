@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Dropdown, Grid, Icon } from "semantic-ui-react";
 import { io } from "socket.io-client";
-import { socket } from "../socket";
 import { useCookies } from "react-cookie";
  
 const ChatBox = () => {
