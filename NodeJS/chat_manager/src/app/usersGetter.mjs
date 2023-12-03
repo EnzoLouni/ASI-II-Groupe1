@@ -14,11 +14,11 @@ mock.onGet('localhost:8081/userapi/public/users').reply(200, {
 /**
  * Fetches users from the Spring Boot service.
  */
-export const fetchUsers = async () => {
+export const fetchUsers = new Promise( async (resolve,reject) => {
   try {
     const response = await axios.get('localhost:8081/userapi/public/users');
-    return response.data.users;
+    resolve(response.data.users);
   } catch (error) {
-    console.error('Failed to fetch users:', error);
+    reject('Failed to fetch users:', error);
   }
-}
+})
