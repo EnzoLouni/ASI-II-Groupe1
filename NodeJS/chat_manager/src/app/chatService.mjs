@@ -56,7 +56,12 @@ const findRoom = (uidsrc, uiddest) => {
  * @param {String} message 
  */
 export const sendMessageToQueue = async (queueName, message) => {
-   const client = await connect();
+   const client = await connect({
+      host: 'tcp://localhost',
+      port: 61616,
+      user: 'admin',
+      pass: 'admin',
+     });
    const sender = await client.send({ destination: queueName });
    sender.write(message);
    sender.end();
