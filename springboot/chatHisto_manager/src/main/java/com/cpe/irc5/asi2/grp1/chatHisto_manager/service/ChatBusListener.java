@@ -35,7 +35,7 @@ public class ChatBusListener {
     private void doReceive(String busName, TextMessage message) {
 
         try {
-            String clazz = message.getStringProperty("ObjectType");
+            // String clazz = message.getStringProperty("ObjectType");
 
             ChatHistoDTO histo = mapper.readValue(message.getText(), ChatHistoDTO.class);
 
