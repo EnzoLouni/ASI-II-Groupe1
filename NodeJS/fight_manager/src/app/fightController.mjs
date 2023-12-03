@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { fetchUserCards } from './bddCalls.mjs';
-import { emit, attack, isGameOver } from './fight Service.mjs';
+import { emit, attack, isGameOver } from './fightService.mjs';
 
 const app = express();
 const server = http.createServer(app);

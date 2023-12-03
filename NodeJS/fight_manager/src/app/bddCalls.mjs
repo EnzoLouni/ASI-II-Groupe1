@@ -4,7 +4,7 @@ import MockAdapter from 'axios-mock-adapter';
 const mock = new MockAdapter(axios);
 
 mock.onGet('localhost:8081/cardapi/public/cards/1/user').reply(200, {
-  cords: [
+  cards: [
     { "id": 1, "name": "Zozz enragé", "description": "Cette carte représente un Zozzer enragé.", "type": "Zozzer", "element": "Terre", "image": "img/zozz_enrage.png", "thumbnail": "img/small/zozz_aenrage.png", "health": 1.5, "attack": 80, "defense": 70, "speed": 50, "price": 2.99 },
     { "id": 2, "name": "Zozz anti-germanique", "description": "Le Zozz anti-germanique est un Zozz spécialisé dans la lutte contre les Zozzers de type germanique.", "type": "Zozz", "element": "Terre", "image": "img/zozz_anti_germanique.png", "thumbnail": "img/small/zozz_anti_germanique.png", "health": 2.5, "attack": 90, "defense": 80, "speed": 70, "price": 5.99 },
     { "id": 3, "name": "ZéoZolitique", "description": "Le ZéoZolitique est un Zozz influencé par la géopolitique.", "type": "Zozz", "element": "Feu", "image": "img/zeozolitique.png", "thumbnail": "img/small/zeozolitique.png", "health": 3.0, "attack": 70, "defense": 60, "speed": 80, "price": 6.99 },
@@ -18,7 +18,7 @@ mock.onGet('localhost:8081/cardapi/public/cards/1/user').reply(200, {
 export const fetchUserCards = async () => {
   try {
     const response = await axios.get('localhost:8081/cardapi/public/cards/1/user');
-    return response.data.users;
+    return response.data.cards;
   } catch (error) {
     console.error('Failed to fetch users:', error);
   }
