@@ -1,4 +1,4 @@
-import { Client, connect } from 'stompit';
+import 'stompit';
 
 /**
  * Is the function that emit data on the socket
