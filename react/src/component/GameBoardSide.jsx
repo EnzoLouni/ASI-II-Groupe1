@@ -1,10 +1,10 @@
 import React from "react";
-import { Grid, Icon } from "semantic-ui-react";
 import GameUser from "./GameUser";
 import GameShortCard from "./GameShortCard";
 import GameFullCard from "./GameFullCard";
+
  
-const BoardSide = () => {
+const GameBoardSide = ({isHero,userId,selectedCards}) => {
     return (
         <div class="ui row grid" style={{height:"300px"}}>
             <GameUser/>
@@ -31,4 +31,4 @@ const BoardSide = () => {
     )
 };
  
-export default BoardSide
+export default GameBoardSide

@@ -4,7 +4,7 @@ import { Divider, Grid } from "semantic-ui-react";
 
 
 
-const GameFullCard = () => {
+const GameFullCard = ({card}) => {
     return (
         <Grid verticalAlign="top" centered style={{heigt:"300px",padding:"0"}}>
             <div className="ui segment full-card" style={{heigt:"300px",width:"175px"}}>
