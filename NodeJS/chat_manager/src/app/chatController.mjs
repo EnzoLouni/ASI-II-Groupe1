@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { fetchUsers } from './usersGetter.mjs';
-import { emit, emitToRoom, joinRoom, sendMessageToQueue} from './chatService.mjs';
+import { emit, emitToRoom, joinRoom } from './chatService.mjs';
 import 'stompit';
 
 const app = express();
