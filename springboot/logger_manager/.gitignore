@@ -1,5 +1,4 @@
 HELP.md
-logger_manager/
 logs/
 target/
 !.mvn/wrapper/maven-wrapper.jar
