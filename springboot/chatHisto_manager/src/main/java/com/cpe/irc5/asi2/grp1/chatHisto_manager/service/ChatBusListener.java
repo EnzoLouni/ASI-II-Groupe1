@@ -18,8 +18,8 @@ import java.util.Date;
 public class ChatBusListener {
 
 
-    @Value("${user.busName}")
-    private String busName;
+    @Value("${chat.busName}")
+    private String chatBusName;
 
     @Inject
     private JmsTemplate jmsTemplate;
@@ -51,8 +51,8 @@ public class ChatBusListener {
     }
 
     @JmsListener(destination = "chatQueue", containerFactory = "queueConnectionFactory")
-    public void receiveMessageResult(TextMessage message) {
-        doReceive(busName, message);
+    public void receiveMessageChat(TextMessage message) {
+        doReceive(chatBusName, message);
     }
 
 

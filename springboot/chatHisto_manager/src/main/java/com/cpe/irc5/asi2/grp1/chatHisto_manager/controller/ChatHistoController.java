@@ -21,8 +21,8 @@ import java.util.List;
 @RequestMapping("/public")
 public class ChatHistoController {
 
-    @Value("${user.busName}")
-    private String busName;
+    @Value("${chat.busName}")
+    private String chatBusName;
 
     @Inject
     private final ChatHistoService chatHistoService;
@@ -45,13 +45,13 @@ public class ChatHistoController {
         myData.setUserId(3);
         myData.setDateReceive("1700143312716");
         myData.setMsg("Bonjour");
-        myData.setLogin("ZOZZER");
+        myData.setLogin("TESTING");
 
         // Convertir l'objet en JSON
         String jsonData = myData.toJSON();
 
         // Envoi du message à la file spécifiée
-        jmsTemplate.convertAndSend(busName, jsonData);
+        jmsTemplate.convertAndSend(chatBusName, jsonData);
 
         return jsonData;
     }

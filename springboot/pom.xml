@@ -22,6 +22,7 @@
 		<module>store_manager</module>
 		<module>auth_manager</module>
 		<module>chatHisto_manager</module>
+		<module>logger_manager</module>
 	</modules>
 
 	<properties>
