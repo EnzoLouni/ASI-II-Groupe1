@@ -48,6 +48,9 @@ springboot/user_manager/target
 springboot/user_manager/src/test
 springboot/store_manager/target
 springboot/store_manager/src/test
-
-commons/target/classes/com/cpe/irc5/asi2/grp1/commons/enums/GroupID.class
-commons/target/classes/com/cpe/irc5/asi2/grp1/commons/service/BusService.class
+springboot/logger_manager/target
+springboot/logger_manager/src/test
+springboot/logger_manager/src/main/resources/busMessage.log
+springboot/chatHisto_manager/target
+springboot/chatHisto_manager/src/test
+commons/target/

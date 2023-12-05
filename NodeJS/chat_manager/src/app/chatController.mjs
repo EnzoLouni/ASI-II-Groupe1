@@ -44,15 +44,15 @@ io.on('connection', (socket) => {
       emitToRoom(socket, room, 'chat message', msg);
 
       // Sending message to ActiveMQ
-      const client = stompit.connect(connectOptions, (error, client) => {
-         if (error) {
-            return console.error(error)
-         }
-         const sender = client.send({ destination: queueName });
-         sender.write(message);
-         sender.end();
-         client.disconnect();
-      });
+      // const client = stompit.connect(connectOptions, (error, client) => {
+      //    if (error) {
+      //       return console.error(error)
+      //    }
+      //    const sender = client.send({ destination: queueName });
+      //    sender.write(message);
+      //    sender.end();
+      //    client.disconnect();
+      // });
       
    });
 });

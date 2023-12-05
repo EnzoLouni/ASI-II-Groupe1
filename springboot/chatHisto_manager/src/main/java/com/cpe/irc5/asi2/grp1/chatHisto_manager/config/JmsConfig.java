@@ -12,7 +12,6 @@ import javax.jms.ConnectionFactory;
 
 @Configuration
 @EnableJms
-
 public class JmsConfig {
 
     @Bean

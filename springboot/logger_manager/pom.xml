@@ -11,13 +11,14 @@
 	<artifactId>logger_manager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>logger_manager</name>
-	<description>logger_manager microservice</description>
+	<description>logger_manager</description>
+
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 
 	<dependencies>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
@@ -38,19 +39,15 @@
 			<artifactId>geronimo-jms_1.1_spec</artifactId>
 			<version>1.1.1</version>
 			<scope>compile</scope>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<image>
-						<builder>paketobuildpacks/builder-jammy-base:latest</builder>
-					</image>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

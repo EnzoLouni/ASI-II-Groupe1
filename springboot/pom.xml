@@ -21,7 +21,7 @@
 		<module>card_manager</module>
 		<module>store_manager</module>
 		<module>auth_manager</module>
-		<module>chatHisto_manager</module>
+		<!--<module>chatHisto_manager</module>-->
 		<module>logger_manager</module>
 	</modules>
 
@@ -122,11 +122,6 @@
 			<artifactId>json</artifactId>
 			<version>20220320</version>
 		</dependency>
-		
-<!-- 		<dependency> -->
-<!-- 		<groupId>org.apache.activemq</groupId> -->
-<!-- 		<artifactId>activemq-broker</artifactId> -->
-<!-- 		</dependency> -->
 	</dependencies>
 
 	<build>

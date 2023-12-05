@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import java.io.IOException;
-import java.util.Date;
 
 @Service
 public class ChatBusListener {

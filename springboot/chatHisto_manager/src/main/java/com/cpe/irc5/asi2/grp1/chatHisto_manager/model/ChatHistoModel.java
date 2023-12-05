@@ -11,7 +11,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "CHAT_HISTORIQUE", schema = "public")
+@Table(name = "CHAT", schema = "public")
 public class ChatHistoModel {
 
     @Id
@@ -20,8 +20,5 @@ public class ChatHistoModel {
     private Integer userId;
     private Date dateReceive;
     private String msg;
-
     private String login;
-
-
 }

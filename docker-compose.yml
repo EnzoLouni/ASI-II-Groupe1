@@ -92,6 +92,16 @@ services:
       - db
       - reverseproxy
       - activemq
+  loggerservice:
+    container_name: zlogger
+    build:
+        context: ./springboot/logger_manager
+        dockerfile: Dockerfile
+    image: schtoukai/zlogger_img
+    ports:
+      - 8086:8086
+    depends_on:
+      - activemq
   vuefront:
     container_name: gutenhower
     build:

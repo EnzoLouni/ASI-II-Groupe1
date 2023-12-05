@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.support.converter.MessagingMessageConverter;
 
+import javax.jms.Session;
+
 @Configuration
 public class ActiveMqConfiguration implements ActiveMqConfigurationTemplate {
 
